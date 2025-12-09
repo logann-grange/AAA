@@ -1,142 +1,173 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="30">
-  <title>Challenge Triple A — Dashboard</title>
-  <link rel="stylesheet" href="template.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="30" />
+    <title>Dashboard Monitoring – Challenge Triple A</title>
+
+    <!-- Gauge.js -->
+    <script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script>
+
+    <link rel="stylesheet" href="/template.css" />
 </head>
+
 <body>
 
-  <header class="page-header">
-    <h1>Challenge Triple A — Dashboard</h1>
-    <p class="subtitle">Dernière mise à jour : {{ timestamp }}</p>
-  </header>
+    <header class="header">
+        <h1>Dashboard Monitoring – Challenge Triple A</h1>
+        <p class="timestamp">Généré le : {{ timestamp }}</p>
+    </header>
 
-  <main class="main-content">
+    <main>
 
-    <section class="section-block">
-      <h2>Système</h2>
-      <p class="line"><label class="label">Nom :</label>{{ hostname }}</p>
-      <p class="line"><label class="label">OS :</label>{{ os_name }}</p>
-      <p class="line"><label class="label">Uptime :</label>{{ system_uptime }}</p>
-      <p class="line"><label class="label">Utilisateurs :</label>{{ user_count }}</p>
-      <p class="line"><label class="label">IP principale :</label>{{ main_ip }}</p>
-    </section>
+        <!-- SECTION SYSTEME -->
+        <section class="section-block">
+            <h2>Système</h2>
 
-    <section class="section-block">
-      <h2>CPU</h2>
-      <p class="line"><label class="label">Nombre de cœurs :</label>{{ total_cores }}</p>
-      <p class="line"><label class="label">Load average :</label>{{ load1 }}, {{ load5 }}, {{ load15 }}</p>
+            <p class="line"><label class="label">Nom de la machine :</label>{{ machine_name }}</p>
+            <p class="line"><label class="label">Système :</label>{{ os_name }}</p>
+            <p class="line"><label class="label">Uptime :</label>{{ uptime }}</p>
+            <p class="line"><label class="label">Utilisateurs connectés :</label>{{ users_count }}</p>
+            <p class="line"><label class="label">Adresse IP :</label>{{ ip_address }}</p>
 
-      <div class="gauge-row">
-        <div class="gauge-card">
-          <h3>CPU global</h3>
-          <canvas id="cpuGauge" class="gauge-chart"></canvas>
-        </div>
-      </div>
+            <p class="line"><label class="label">Charge système (1 min) :</label>{{ load1 }}</p>
+            <p class="line"><label class="label">Charge système (5 min) :</label>{{ load5 }}</p>
+            <p class="line"><label class="label">Charge système (15 min) :</label>{{ load15 }}</p>
+        </section>
 
-      <h3>Par cœur</h3>
-      <div class="cores-container">
-        {% for core, value in cores %}
-          <div class="core-card">
-            <p class="line"><label class="label">Cœur {{ core }} :</label>{{ value }}%</p>
-            <canvas id="core{{ core }}" class="gauge-chart"></canvas>
-          </div>
-        {% endfor %}
-      </div>
-    </section>
+        <!-- SECTION CPU -->
+        <section class="section-block">
+            <h2>CPU</h2>
 
-    <section class="section-block">
-      <h2>Mémoire (RAM)</h2>
-      <p class="line"><label class="label">RAM totale :</label>{{ ram_total }} GB</p>
-      <p class="line"><label class="label">RAM utilisée :</label>{{ ram_used }} GB</p>
-      <p class="line"><label class="label">Utilisation :</label>{{ ram_percent }}%</p>
-      <div class="gauge-row">
-        <div class="gauge-card">
-          <h3>RAM</h3>
-          <canvas id="ramGauge" class="gauge-chart"></canvas>
-        </div>
-      </div>
-    </section>
+            <p class="line"><label class="label">Nombre de cœurs :</label>{{ cpu_cores }}</p>
+            <p class="line"><label class="label">Fréquence :</label>{{ cpu_freq }} MHz</p>
 
-    <section class="section-block">
-      <h2>Stockage</h2>
-      <p class="line"><label class="label">Total :</label>{{ disk_total }} GB</p>
-      <p class="line"><label class="label">Utilisé :</label>{{ disk_used }} GB</p>
-      <p class="line"><label class="label">Libre :</label>{{ disk_free }} GB</p>
-      <p class="line"><label class="label">Taux :</label>{{ disk_percent }}%</p>
-      <div class="gauge-row">
-        <div class="gauge-card">
-          <h3>Disque (/) </h3>
-          <canvas id="diskGauge" class="gauge-chart"></canvas>
-        </div>
-      </div>
-    </section>
+            <div class="gauge-row">
+                <div class="gauge-container">
+                    <canvas id="cpu_gauge"></canvas>
+                    <p class="gauge-label">Utilisation CPU (%)</p>
+                </div>
+            </div>
 
-    <section class="section-block">
-      <h2>Fichiers (.txt / .py / .pdf / .jpg)</h2>
-      <p class="line"><label class="label">Répertoire :</label>{{ scan_dir }}</p>
-      <ul class="file-list">
-        <li class="line"><label class="label">.txt</label>{{ txt_count }}</li>
-        <li class="line"><label class="label">.py</label>{{ py_count }}</li>
-        <li class="line"><label class="label">.pdf</label>{{ pdf_count }}</li>
-        <li class="line"><label class="label">.jpg</label>{{ jpg_count }}</li>
-      </ul>
-      </section>
+            <h3>Utilisation par cœur</h3>
 
-      <section class="section-block">
-      <h2>Top processus</h2>
-      <ol class="proc-list">
-        <li>{{ top_process_1 }}</li>
-        <li>{{ top_process_2 }}</li>
-        <li>{{ top_process_3 }}</li>
-      </ol>
-    </section>
+            <ul class="core-list">
+                {% for usage in cpu_per_core %}
+                <li class="core-item">
+                    <div class="gauge-container">
+                        <canvas id="core_gauge_{{ loop.index }}"></canvas>
+                        <p class="gauge-label">Cœur {{ loop.index }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
 
-  </main>
+        </section>
 
-  <footer class="page-footer">
-    Dashboard généré par monitor.py — rafraîchissement automatique toutes les 30s
-  </footer>
+        <!-- SECTION MÉMOIRE -->
+        <section class="section-block">
+            <h2>Mémoire RAM</h2>
 
-  <script>
-    // Fonction utilitaire : crée une jauge donut semi-circulaire
-    function drawGauge(id, value) {
-      const canvas = document.getElementById(id);
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          datasets: [{
-            data: [value, 100 - value],
-            backgroundColor: [
-              value <= 50 ? '#2ecc71' : (value <= 80 ? '#f39c12' : '#e74c3c'),
-              '#ecf0f1'
-            ],
-            borderWidth: 0
-          }]
-        },
-        options: {
-          rotation: -90,
-          circumference: 180,
-          cutout: '70%',
-          plugins: { legend: { display: false }, tooltip: { enabled: false } }
+            <p class="line"><label class="label">RAM totale :</label>{{ ram_total }} Go</p>
+            <p class="line"><label class="label">RAM utilisée :</label>{{ ram_used }} Go</p>
+
+            <div class="gauge-row">
+                <div class="gauge-container">
+                    <canvas id="ram_gauge"></canvas>
+                    <p class="gauge-label">Utilisation RAM (%)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION FICHIERS -->
+        <section class="section-block">
+            <h2>Fichiers analysés (.txt / .py / .pdf / .jpg)</h2>
+
+            <p class="line"><label class="label">Répertoire scanné :</label>{{ scan_dir }}</p>
+
+            <ul class="file-list">
+                <li class="line"><label class="label">.txt :</label>{{ txt_count }}</li>
+                <li class="line"><label class="label">.py :</label>{{ py_count }}</li>
+                <li class="line"><label class="label">.pdf :</label>{{ pdf_count }}</li>
+                <li class="line"><label class="label">.jpg :</label>{{ jpg_count }}</li>
+            </ul>
+        </section>
+
+        <!-- SECTION TOP PROCESSUS -->
+        <section class="section-block">
+            <h2>Top 3 des processus</h2>
+
+            <div class="gauge-row">
+                <div class="process-card">
+                    <h3>Processus 1</h3>
+                    <p>{{ top_process_1 }}</p>
+                </div>
+
+                <div class="process-card">
+                    <h3>Processus 2</h3>
+                    <p>{{ top_process_2 }}</p>
+                </div>
+
+                <div class="process-card">
+                    <h3>Processus 3</h3>
+                    <p>{{ top_process_3 }}</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>Challenge Triple A — Monitoring Linux — Projet pédagogique</p>
+    </footer>
+
+    <!-- SCRIPT GAUGES -->
+    <script>
+        // Fonction utilitaire
+        function createGauge(canvasId, value, color) {
+            var opts = {
+                angle: -0.25,
+                lineWidth: 0.2,
+                radiusScale: 1,
+                pointer: {
+                    length: 0.6,
+                    strokeWidth: 0.035,
+                    color: '#000'
+                },
+                limitMax: false,
+                limitMin: false,
+                colorStart: color,
+                colorStop: color,
+                strokeColor: '#E0E0E0'
+            };
+
+            var target = document.getElementById(canvasId);
+            var gauge = new Gauge(target).setOptions(opts);
+            gauge.maxValue = 100;
+            gauge.animationSpeed = 32;
+            gauge.set(value);
         }
-      });
-    }
 
-    // Draw global gauges
-    drawGauge('cpuGauge', {{ cpu_percent }});
-    drawGauge('ramGauge', {{ ram_percent }});
-    drawGauge('diskGauge', {{ disk_percent }});
+        // Couleur dynamique
+        function color(value) {
+            if (value <= 50) return "#4CAF50";      // vert
+            if (value <= 80) return "#FF9800";      // orange
+            return "#F44336";                      // rouge
+        }
 
-    // Draw per-core gauges
-    {% for core, value in cores %}
-      drawGauge('core{{ core }}', {{ value }});
-    {% endfor %}
-  </script>
+        // CPU gauge
+        createGauge("cpu_gauge", {{ cpu_percent }}, color({{ cpu_percent }}));
+
+        // RAM gauge
+        createGauge("ram_gauge", {{ ram_percent }}, color({{ ram_percent }}));
+
+        // Gauges par cœur
+        {% for usage in cpu_per_core %}
+        createGauge("core_gauge_{{ loop.index }}", {{ usage }}, color({{ usage }}));
+        {% endfor %}
+    </script>
+
 </body>
+
 </html>
