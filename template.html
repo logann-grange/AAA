@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="30">
+  <title>Challenge Triple A — Dashboard</title>
+  <link rel="stylesheet" href="template.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <header class="page-header">
+    <h1>Challenge Triple A — Dashboard</h1>
+    <p class="subtitle">Dernière mise à jour : {{ timestamp }}</p>
+  </header>
+
+  <main class="main-content">
+
+    <section class="section-block">
+      <h2>Système</h2>
+      <p class="line"><label class="label">Nom :</label>{{ hostname }}</p>
+      <p class="line"><label class="label">OS :</label>{{ os_name }}</p>
+      <p class="line"><label class="label">Uptime :</label>{{ system_uptime }}</p>
+      <p class="line"><label class="label">Utilisateurs :</label>{{ user_count }}</p>
+      <p class="line"><label class="label">IP principale :</label>{{ main_ip }}</p>
+    </section>
+
+    <section class="section-block">
+      <h2>CPU</h2>
+      <p class="line"><label class="label">Nombre de cœurs :</label>{{ total_cores }}</p>
+      <p class="line"><label class="label">Load average :</label>{{ load1 }}, {{ load5 }}, {{ load15 }}</p>
+
+      <div class="gauge-row">
+        <div class="gauge-card">
+          <h3>CPU global</h3>
+          <canvas id="cpuGauge" class="gauge-chart"></canvas>
+        </div>
+      </div>
+
+      <h3>Par cœur</h3>
+      <div class="cores-container">
+        {% for core, value in cores %}
+          <div class="core-card">
+            <p class="line"><label class="label">Cœur {{ core }} :</label>{{ value }}%</p>
+            <canvas id="core{{ core }}" class="gauge-chart"></canvas>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="section-block">
+      <h2>Mémoire (RAM)</h2>
+      <p class="line"><label class="label">RAM totale :</label>{{ ram_total }} GB</p>
+      <p class="line"><label class="label">RAM utilisée :</label>{{ ram_used }} GB</p>
+      <p class="line"><label class="label">Utilisation :</label>{{ ram_percent }}%</p>
+      <div class="gauge-row">
+        <div class="gauge-card">
+          <h3>RAM</h3>
+          <canvas id="ramGauge" class="gauge-chart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <h2>Stockage</h2>
+      <p class="line"><label class="label">Total :</label>{{ disk_total }} GB</p>
+      <p class="line"><label class="label">Utilisé :</label>{{ disk_used }} GB</p>
+      <p class="line"><label class="label">Libre :</label>{{ disk_free }} GB</p>
+      <p class="line"><label class="label">Taux :</label>{{ disk_percent }}%</p>
+      <div class="gauge-row">
+        <div class="gauge-card">
+          <h3>Disque (/) </h3>
+          <canvas id="diskGauge" class="gauge-chart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <h2>Fichiers (.txt / .py / .pdf / .jpg)</h2>
+      <p class="line"><label class="label">Répertoire :</label>{{ scan_dir }}</p>
+      <ul class="file-list">
+        <li class="line"><label class="label">.txt</label>{{ txt_count }}</li>
+        <li class="line"><label class="label">.py</label>{{ py_count }}</li>
+        <li class="line"><label class="label">.pdf</label>{{ pdf_count }}</li>
+        <li class="line"><label class="label">.jpg</label>{{ jpg_count }}</li>
+      </ul>
+      </section>
+
+      <section class="section-block">
+      <h2>Top processus</h2>
+      <ol class="proc-list">
+        <li>{{ top_process_1 }}</li>
+        <li>{{ top_process_2 }}</li>
+        <li>{{ top_process_3 }}</li>
+      </ol>
+    </section>
+
+  </main>
+
+  <footer class="page-footer">
+    Dashboard généré par monitor.py — rafraîchissement automatique toutes les 30s
+  </footer>
+
+  <script>
+    // Fonction utilitaire : crée une jauge donut semi-circulaire
+    function drawGauge(id, value) {
+      const canvas = document.getElementById(id);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [value, 100 - value],
+            backgroundColor: [
+              value <= 50 ? '#2ecc71' : (value <= 80 ? '#f39c12' : '#e74c3c'),
+              '#ecf0f1'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          rotation: -90,
+          circumference: 180,
+          cutout: '70%',
+          plugins: { legend: { display: false }, tooltip: { enabled: false } }
+        }
+      });
+    }
+
+    // Draw global gauges
+    drawGauge('cpuGauge', {{ cpu_percent }});
+    drawGauge('ramGauge', {{ ram_percent }});
+    drawGauge('diskGauge', {{ disk_percent }});
+
+    // Draw per-core gauges
+    {% for core, value in cores %}
+      drawGauge('core{{ core }}', {{ value }});
+    {% endfor %}
+  </script>
+</body>
+</html>
