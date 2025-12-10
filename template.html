@@ -5,126 +5,91 @@
     <meta charset="UTF-8" />
     <meta http-equiv="refresh" content="30" />
     <title>Dashboard Monitoring – Challenge Triple A</title>
-    <script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script>
-    <link rel="stylesheet" href="/template.css" />
+    <link rel="stylesheet" href="template.css" />
 </head>
 
 <body>
 
-    <header class="header" role="banner">
-        <h1>Dashboard Monitoring – Challenge Triple A</h1>
-        <p class="timestamp">Généré le : {{ start_time }}</p>
-    </header>
+<header class="header">
+    <h1 class="header-title">Dashboard Monitoring – Challenge Triple A</h1>
+    <p class="timestamp">Démarré le : {{ start_time }}</p>
+</header>
 
-    <main role="main">
+<main class="main-content">
 
-        <!-- SECTION SYSTEME -->
-        <section class="section-block system-section" aria-labelledby="system-title">
-            <h2 class="section-title system-title">Système</h2>
-            <p class="line"><span class="label">Nom de la machine :</span> {{ system_name }}</p>
-            <p class="line"><span class="label">Système :</span> {{ system_os }}</p>
-            <p class="line"><span class="label">Uptime :</span> {{ uptime }}</p>
-            <p class="line"><span class="label">Utilisateurs connectés :</span> {{ users_nb }}</p>
-            <p class="line"><span class="label">Adresse IP :</span> {{ ip }}</p>
-        </section>
+    <!-- ================== SECTION SYSTEME ================== -->
+    <section class="section-block system-section" aria-label="Système">
+        <h2 class="section-title">Système</h2>
 
-        <!-- SECTION CPU -->
-        <section class="section-block cpu-section" aria-labelledby="cpu-title">
-            <h2 class="section-title cpu-title">CPU</h2>
-            <p class="line"><span class="label">Nombre de cœurs :</span> {{ nb_core }}</p>
-            <p class="line"><span class="label">Fréquence :</span> {{ cpu_freq }} MHz</p>
+        <p class="label">Nom de la machine : {{ system_name }}</p>
+        <p class="label">Système d’exploitation : {{ system_os }}</p>
+        <p class="label">Architecture : {{ system_arch }}</p>
+        <p class="label">Uptime : {{ uptime_day }} jours, {{ uptime_hour }} h, {{ uptime_min }} min</p>
+        <p class="label">Utilisateurs connectés : {{ users_nb }}</p>
+        <p class="label">Adresse IP : {{ ip }}</p>
+    </section>
 
-            <div class="gauge-row">
-                <div class="gauge-container cpu-gauge" role="img" aria-label="Utilisation CPU {{ cpu_usage }} pourcent">
-                    <canvas class="cpu_gauge_canvas"></canvas>
-                    <p class="gauge-label">Utilisation CPU (%) : {{ cpu_usage }}%</p>
-                </div>
+    <!-- ================== SECTION CPU ================== -->
+    <section class="section-block cpu-section" aria-label="CPU">
+        <h2 class="section-title">CPU</h2>
+
+        <p class="label">Processeur : {{ system_cpu }}</p>
+        <p class="label">Nombre de cœurs : {{ nb_core }}</p>
+        <p class="label">Fréquence : {{ cpu_freq }} MHz</p>
+
+        <h3 class="subsection-title">Utilisation CPU</h3>
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ cpu_usage }}" aria-label="Utilisation du CPU en pourcentage">
+            <div class="progress-bar {{ cpu_color }}">
+                {{ cpu_usage }}%
             </div>
+        </div>
+    </section>
 
-            <h3>Utilisation par cœur</h3>
-            <ul class="core-list">
-                {% for usage in cpu_per_core %}
-                <li class="core-item">
-                    <div class="gauge-container core-gauge" role="img" aria-label="Cœur {{ loop.index }} utilisation {{ usage }} pourcent">
-                        <canvas class="core_gauge_canvas"></canvas>
-                        <p class="gauge-label">Cœur {{ loop.index }} : {{ usage }}%</p>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </section>
+    <!-- ================== SECTION RAM ================== -->
+    <section class="section-block ram-section" aria-label="Mémoire RAM">
+        <h2 class="section-title">Mémoire RAM</h2>
 
-        <!-- SECTION MÉMOIRE -->
-        <section class="section-block ram-section" aria-labelledby="ram-title">
-            <h2 class="section-title ram-title">Mémoire RAM</h2>
-            <p class="line"><span class="label">RAM totale :</span> {{ ram_total }} Go</p>
-            <p class="line"><span class="label">RAM utilisée :</span> {{ ram_usage }} Go</p>
+        <p class="label">RAM totale : {{ ram_total }} Go</p>
+        <p class="label">RAM utilisée : {{ ram_usage }} Go</p>
 
-            <div class="gauge-row">
-                <div class="gauge-container ram-gauge" role="img" aria-label="Utilisation RAM {{ ram_percent }} pourcent">
-                    <canvas class="ram_gauge_canvas"></canvas>
-                    <p class="gauge-label">Utilisation RAM (%) : {{ ram_percent }}%</p>
-                </div>
+        <h3 class="subsection-title">Utilisation RAM</h3>
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ ram_percent }}" aria-label="Utilisation de la RAM en pourcentage">
+            <div class="progress-bar {{ ram_color }}">
+                {{ ram_percent }}%
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- SECTION TOP PROCESSUS -->
-        <section class="section-block process-section" aria-labelledby="process-title">
-            <h2 class="section-title process-title">Top 3 des processus</h2>
-            <div class="gauge-row">
-                <div class="process-card">
-                    <h3>Processus 1</h3>
-                    <p>{{ cpu_process[0]['nom'] }}</p>
-                </div>
-                <div class="process-card">
-                    <h3>Processus 2</h3>
-                    <p>{{ cpu_process[1]['nom'] }}</p>
-                </div>
-                <div class="process-card">
-                    <h3>Processus 3</h3>
-                    <p>{{ cpu_process[2]['nom'] }}</p>
-                </div>
-            </div>
-        </section>
+    <!-- ================== SECTION PROCESSUS ================== -->
+    <section class="section-block process-section" aria-label="Top 3 des processus">
 
-    </main>
+        <h2 class="section-title">Top 3 des processus</h2>
 
-    <footer class="footer" role="contentinfo">
-        <p>Challenge Triple A — Projet pédagogique —  Gaïa, Logann, Anna</p>
-    </footer>
+        <h3 class="subsection-title top-cpu-title">Top 3 – Utilisation CPU</h3>
+        <ul class="process-list" aria-label="Top CPU" aria-live="polite">
+            {% for p in cpu_top %}
+            <li class="process-item">
+                {{ loop.index }}. {{ p.nom }}, CPU : {{ p.cpu }}%, RAM : {{ p.ram }} Mo
+            </li>
+            {% endfor %}
+        </ul>
 
-    <script>
-        function createGauge(canvasClass, value, color) {
-            var opts = {
-                angle: -0.25,
-                lineWidth: 0.2,
-                radiusScale: 1,
-                pointer: { length: 0.6, strokeWidth: 0.035, color: '#000' },
-                limitMax: false,
-                limitMin: false,
-                colorStart: color,
-                colorStop: color,
-                strokeColor: '#E0E0E0'
-            };
-            var target = document.querySelector(`.${canvasClass}`);
-            var gauge = new Gauge(target).setOptions(opts);
-            gauge.maxValue = 100;
-            gauge.animationSpeed = 32;
-            gauge.set(value);
-        }
+        <h3 class="subsection-title top-ram-title">Top 3 – Utilisation RAM</h3>
+        <ul class="process-list" aria-label="Top RAM" aria-live="polite">
+            {% for p in ram_top %}
+            <li class="process-item">
+                {{ loop.index }}. {{ p.nom }}, RAM : {{ p.ram }} Mo, CPU : {{ p.cpu }}%
+            </li>
+            {% endfor %}
+        </ul>
 
-        function color(value) {
-            if (value <= 50) return "#4CAF50";
-            if (value <= 80) return "#FF9800";
-            return "#F44336";
-        }
+    </section>
 
-        createGauge("cpu_gauge_canvas", {{ cpu_usage }}, color({{ cpu_usage }}));
-        createGauge("ram_gauge_canvas", {{ ram_percent }}, color({{ ram_percent }}));
-        {% for usage in cpu_per_core %}
-        createGauge("core_gauge_canvas", {{ usage }}, color({{ usage }}));
-        {% endfor %}
-    </script>
+</main>
+
+<footer class="footer">
+    <p>Challenge Triple A — Projet pédagogique — Gaïa, Logann, Anna</p>
+</footer>
 
 </body>
 </html>
