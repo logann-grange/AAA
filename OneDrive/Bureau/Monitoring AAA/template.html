@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="30" />
+    <title>Dashboard Monitoring – Challenge Triple A</title>
+    <link rel="stylesheet" href="template.css" />
+</head>
+
+<body>
+
+<header class="header">
+    <h1>Dashboard Monitoring – Challenge Triple A</h1>
+    <p class="timestamp">Démarré le : {{ start_time }}</p>
+</header>
+
+<main>
+
+    <!-- ================== SECTION SYSTEME ================== -->
+    <section class="section-block system-section">
+        <h2>Système</h2>
+
+        <p class="label">Nom de la machine : {{ system_name }}</p>
+        <p class="label">Système d’exploitation : {{ system_os }}</p>
+        <p class="label">Architecture : {{ system_arch }}</p>
+
+        <!-- UPTIME FORMATÉ -->
+        <p class="label">
+            Uptime : {{ uptime_day }} jours, {{ uptime_hour }} h, {{ uptime_min }} min
+        </p>
+
+        <p class="label">Utilisateurs connectés : {{ users_nb }}</p>
+        <p class="label">Adresse IP : {{ ip }}</p>
+    </section>
+
+    <!-- ================== SECTION CPU ================== -->
+    <section class="section-block cpu-section">
+        <h2>CPU</h2>
+
+        <p class="label">Processeur : {{ system_cpu }}</p>
+        <p class="label">Nombre de cœurs : {{ nb_core }}</p>
+        <p class="label">Fréquence : {{ cpu_freq }} MHz</p>
+
+        <h3>Utilisation CPU</h3>
+
+        <div class="progress">
+            <div class="progress-bar {{ cpu_color }}" style="width: {{ cpu_usage }}%;">
+                {{ cpu_usage }}%
+            </div>
+        </div>
+    </section>
+
+    <!-- ================== SECTION RAM ================== -->
+    <section class="section-block ram-section">
+        <h2>Mémoire RAM</h2>
+
+        <p class="label">RAM totale : {{ ram_total }} Go</p>
+        <p class="label">RAM utilisée : {{ ram_usage }} Go</p>
+
+        <h3>Utilisation RAM</h3>
+
+        <div class="progress">
+            <div class="progress-bar {{ ram_color }}" style="width: {{ ram_percent }}%;">
+                {{ ram_percent }}%
+            </div>
+        </div>
+    </section>
+
+    <!-- ================== SECTION PROCESSUS ================== -->
+    <section class="section-block process-section">
+
+        <h2>Top 3 des processus</h2>
+
+        <!-- ---------------- TOP CPU ---------------- -->
+        <h3>Top 3 – Utilisation CPU</h3>
+        <ul class="process-list">
+            {% for p in cpu_top %}
+            <li class="process-item">
+                <strong>{{ loop.index }}. {{ p.nom }}</strong><br>
+                CPU : {{ p.cpu }}%<br>
+                RAM : {{ p.ram }} Mo
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- ---------------- TOP RAM ---------------- -->
+        <h3>Top 3 – Utilisation RAM</h3>
+        <ul class="process-list">
+            {% for p in ram_top %}
+            <li class="process-item">
+                <strong>{{ loop.index }}. {{ p.nom }}</strong><br>
+                RAM : {{ p.ram }} Mo<br>
+                CPU : {{ p.cpu }}%
+            </li>
+            {% endfor %}
+        </ul>
+
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>Challenge Triple A — Projet pédagogique — Gaïa, Logann, Anna</p>
+</footer>
+
+</body>
+</html>
