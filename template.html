@@ -2,92 +2,92 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="30" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="30">
     <title>Dashboard Monitoring – Challenge Triple A</title>
-    <link rel="stylesheet" href="template.css" />
+    <link rel="stylesheet" href="/template.css">
 </head>
 
 <body>
 
-<header class="header">
-    <h1 class="header-title">Dashboard Monitoring – Challenge Triple A</h1>
+<header class="header" role="banner">
+    <h1>Dashboard Monitoring – Challenge Triple A</h1>
     <p class="timestamp">Démarré le : {{ start_time }}</p>
 </header>
 
-<main class="main-content">
+<main role="main">
 
     <!-- ================== SECTION SYSTEME ================== -->
-    <section class="section-block system-section" aria-label="Système">
-        <h2 class="section-title">Système</h2>
+    <section class="section-block system-section" aria-labelledby="system-title">
+        <h2 id="system-title">Système</h2>
 
         <p class="label">Nom de la machine : {{ system_name }}</p>
         <p class="label">Système d’exploitation : {{ system_os }}</p>
         <p class="label">Architecture : {{ system_arch }}</p>
+
         <p class="label">Uptime : {{ uptime_day }} jours, {{ uptime_hour }} h, {{ uptime_min }} min</p>
         <p class="label">Utilisateurs connectés : {{ users_nb }}</p>
         <p class="label">Adresse IP : {{ ip }}</p>
     </section>
 
     <!-- ================== SECTION CPU ================== -->
-    <section class="section-block cpu-section" aria-label="CPU">
-        <h2 class="section-title">CPU</h2>
+    <section class="section-block cpu-section" aria-labelledby="cpu-title">
+        <h2 id="cpu-title">CPU</h2>
 
         <p class="label">Processeur : {{ system_cpu }}</p>
         <p class="label">Nombre de cœurs : {{ nb_core }}</p>
         <p class="label">Fréquence : {{ cpu_freq }} MHz</p>
 
-        <h3 class="subsection-title">Utilisation CPU</h3>
-        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ cpu_usage }}" aria-label="Utilisation du CPU en pourcentage">
-            <div class="progress-bar {{ cpu_color }}">
+        <h3>Utilisation CPU</h3>
+        <div class="progress" role="progressbar" aria-valuenow="{{ cpu_usage }}" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar {{ cpu_color }}" style="width: {{ cpu_usage }}%;">
                 {{ cpu_usage }}%
             </div>
         </div>
     </section>
 
     <!-- ================== SECTION RAM ================== -->
-    <section class="section-block ram-section" aria-label="Mémoire RAM">
-        <h2 class="section-title">Mémoire RAM</h2>
+    <section class="section-block ram-section" aria-labelledby="ram-title">
+        <h2 id="ram-title">Mémoire RAM</h2>
 
         <p class="label">RAM totale : {{ ram_total }} Go</p>
         <p class="label">RAM utilisée : {{ ram_usage }} Go</p>
 
-        <h3 class="subsection-title">Utilisation RAM</h3>
-        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ ram_percent }}" aria-label="Utilisation de la RAM en pourcentage">
-            <div class="progress-bar {{ ram_color }}">
+        <h3>Utilisation RAM</h3>
+        <div class="progress" role="progressbar" aria-valuenow="{{ ram_percent }}" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar {{ ram_color }}" style="width: {{ ram_percent }}%;">
                 {{ ram_percent }}%
             </div>
         </div>
     </section>
 
     <!-- ================== SECTION PROCESSUS ================== -->
-    <section class="section-block process-section" aria-label="Top 3 des processus">
+    <section class="section-block process-section" aria-labelledby="process-title">
+        <h2 id="process-title">Top 3 des processus</h2>
 
-        <h2 class="section-title">Top 3 des processus</h2>
-
-        <h3 class="subsection-title top-cpu-title">Top 3 – Utilisation CPU</h3>
-        <ul class="process-list" aria-label="Top CPU" aria-live="polite">
+        <h3>Top 3 – Utilisation CPU</h3>
+        <ul class="process-list">
             {% for p in cpu_top %}
             <li class="process-item">
-                {{ loop.index }}. {{ p.nom }}, CPU : {{ p.cpu }}%, RAM : {{ p.ram }} Mo
+                {{ loop.index }}. {{ p.nom }} — CPU : {{ p.cpu }}% — RAM : {{ p.ram }} Mo
             </li>
             {% endfor %}
         </ul>
 
-        <h3 class="subsection-title top-ram-title">Top 3 – Utilisation RAM</h3>
-        <ul class="process-list" aria-label="Top RAM" aria-live="polite">
+        <h3>Top 3 – Utilisation RAM</h3>
+        <ul class="process-list">
             {% for p in ram_top %}
             <li class="process-item">
-                {{ loop.index }}. {{ p.nom }}, RAM : {{ p.ram }} Mo, CPU : {{ p.cpu }}%
+                {{ loop.index }}. {{ p.nom }} — RAM : {{ p.ram }} Mo — CPU : {{ p.cpu }}%
             </li>
             {% endfor %}
         </ul>
-
     </section>
 
 </main>
 
-<footer class="footer">
+<footer class="footer" role="contentinfo">
     <p>Challenge Triple A — Projet pédagogique — Gaïa, Logann, Anna</p>
 </footer>
 
