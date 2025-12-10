@@ -19,8 +19,8 @@
 <main role="main">
 
     <!-- ================== SECTION SYSTEME ================== -->
-    <section class="section-block system-section" aria-labelledby="system-title">
-        <h2 id="system-title">Système</h2>
+    <section class="section-block system-section" aria-labelledby="system-section-title">
+        <h2 class="system-section-title">Système</h2>
 
         <p class="label">Nom de la machine : {{ system_name }}</p>
         <p class="label">Système d’exploitation : {{ system_os }}</p>
@@ -32,8 +32,8 @@
     </section>
 
     <!-- ================== SECTION CPU ================== -->
-    <section class="section-block cpu-section" aria-labelledby="cpu-title">
-        <h2 id="cpu-title">CPU</h2>
+    <section class="section-block cpu-section" aria-labelledby="cpu-section-title">
+        <h2 class="cpu-section-title">CPU</h2>
 
         <p class="label">Processeur : {{ system_cpu }}</p>
         <p class="label">Nombre de cœurs : {{ nb_core }}</p>
@@ -41,30 +41,30 @@
 
         <h3>Utilisation CPU</h3>
         <div class="progress" role="progressbar" aria-valuenow="{{ cpu_usage }}" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar {{ cpu_color }}" style="width: {{ cpu_usage }}%;">
+            <div class="progress-bar">
                 {{ cpu_usage }}%
             </div>
         </div>
     </section>
 
     <!-- ================== SECTION RAM ================== -->
-    <section class="section-block ram-section" aria-labelledby="ram-title">
-        <h2 id="ram-title">Mémoire RAM</h2>
+    <section class="section-block ram-section" aria-labelledby="ram-section-title">
+        <h2 class="ram-section-title">Mémoire RAM</h2>
 
         <p class="label">RAM totale : {{ ram_total }} Go</p>
         <p class="label">RAM utilisée : {{ ram_usage }} Go</p>
 
         <h3>Utilisation RAM</h3>
         <div class="progress" role="progressbar" aria-valuenow="{{ ram_percent }}" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar {{ ram_color }}" style="width: {{ ram_percent }}%;">
+            <div class="progress-bar">
                 {{ ram_percent }}%
             </div>
         </div>
     </section>
 
     <!-- ================== SECTION PROCESSUS ================== -->
-    <section class="section-block process-section" aria-labelledby="process-title">
-        <h2 id="process-title">Top 3 des processus</h2>
+    <section class="section-block process-section" aria-labelledby="process-section-title">
+        <h2 class="process-section-title">Top 3 des processus</h2>
 
         <h3>Top 3 – Utilisation CPU</h3>
         <ul class="process-list">
