@@ -8,131 +8,146 @@
     <title>Dashboard Monitoring – Challenge Triple A</title>
     <link rel="icon" type="image/ico" href="./Images/favicon.ico">
     <link rel="stylesheet" href="./template.css">
-    <script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script>
 </head>
 
 <body>
 
-<header role="banner" aria-label="En-tête principal">
+<header class="header" role="banner" aria-label="En-tête principal">
     <h1>Dashboard Monitoring – Challenge Triple A</h1>
-    <p>Démarré le : {{ start_time }}</p>
+    <p class="timestamp">Démarré le : {{ start_time }}</p>
 </header>
 
-<main role="main" aria-label="Contenu principal du tableau de bord">
-    <div class="dashboard">
+<main role="main" class="dashboard" aria-label="Contenu principal du tableau de bord">
 
-        <!-- SYSTÈME -->
-        <section class="section system-section" aria-labelledby="system-title">
-            <h2 id="system-title">Système</h2>
-            <img src="./Images/icons8-paramètres.png" alt="Icône des paramètres de l'ordinateur" class="icon">
+    <!-- ================= SYSTÈME ================= -->
+    <section class="system-section" aria-labelledby="system-title">
+        <h2 id="system-title">Système</h2>
+        <img src="./Images/icons8-paramètres.png" alt="Icône des paramètres de l'ordinateur" class="icon">
 
-            <p>Nom de la machine : {{ system_name }}</p>
-            <p>Système d’exploitation : {{ system_os }}</p>
-            <p>Architecture : {{ system_arch }}</p>
-            <p>Heure de démarrage : {{ start_time }}</p>
-            <p>Uptime : {{ uptime_day }} jours, {{ uptime_hour }} h, {{ uptime_min }} min</p>
-            <p>Nombre d’utilisateurs connectés : {{ users_nb }}</p>
-            <p>Adresse IP principale : {{ ip }}</p>
+        <p>Nom de la machine : {{ system_name }}</p>
+        <p>Système d’exploitation : {{ system_os }}</p>
+        <p>Architecture : {{ system_arch }}</p>
+        <p>Heure de démarrage : {{ start_time }}</p>
+        <p>Uptime : {{ uptime_day }} jours, {{ uptime_hour }} h, {{ uptime_min }} min</p>
+        <p>Nombre d’utilisateurs connectés : {{ users_nb }}</p>
+        <p>Adresse IP principale : {{ ip }}</p>
 
-            <h3>Charge système</h3>
-            <p>Load 1 min : {{ load1 }}</p>
-            <p>Load 5 min : {{ load5 }}</p>
-            <p>Load 15 min : {{ load15 }}</p>
-        </section>
+        <h3>Charge système</h3>
+        <p>Load 1 min : {{ load1 }}</p>
+        <p>Load 5 min : {{ load5 }}</p>
+        <p>Load 15 min : {{ load15 }}</p>
+    </section>
 
-        <!-- CPU -->
-        <section class="section cpu-section" aria-labelledby="cpu-title">
-            <h2 id="cpu-title">CPU</h2>
-            <img src="./Images/icons8-cpu-50.png" alt="Icône du processeur" class="icon">
-            <canvas id="cpuGauge" width="200" height="160"></canvas>
+    <!-- ================= CPU ================= -->
+    <section class="cpu-section" aria-labelledby="cpu-title">
+        <h2 id="cpu-title">CPU</h2>
+        <img src="./Images/icons8-cpu-50.png" alt="Icône du processeur" class="icon">
 
-            <p>Nombre de cœurs : {{ nb_core }}</p>
-            <p>Fréquence actuelle : {{ cpu_freq }} MHz</p>
+        <p>Nombre de cœurs : {{ nb_core }}</p>
+        <p>Fréquence actuelle : {{ cpu_freq }} MHz</p>
 
-            <h3>Top 3 processus CPU</h3>
-            <ul>
-                {% for p in cpu_process %}
-                <li>{{ loop.index }}. {{ p.nom }} — CPU : {{ p.cpu }}% — RAM : {{ p.ram }}%</li>
-                {% endfor %}
-            </ul>
-        </section>
+        <h3>Jauge CPU</h3>
+        <canvas id="cpuGauge" width="200" height="160" aria-label="Jauge CPU"></canvas>
+    </section>
 
-        <!-- RAM -->
-        <section class="section ram-section" aria-labelledby="ram-title">
-            <h2 id="ram-title">Mémoire RAM</h2>
-            <img src="./Images/icons8-ram-60.png" alt="Icône de la RAM" class="icon">
-            <canvas id="ramGauge" width="200" height="160"></canvas>
+    <!-- ================= RAM ================= -->
+    <section class="ram-section" aria-labelledby="ram-title">
+        <h2 id="ram-title">Mémoire RAM</h2>
+        <img src="./Images/icons8-ram-60.png" alt="Icône de la RAM" class="icon">
 
-            <p>RAM totale : {{ ram_total }} Go</p>
-            <p>RAM utilisée : {{ ram_usage }} Go</p>
+        <p>RAM totale : {{ ram_total }} Go</p>
+        <p>RAM utilisée : {{ ram_usage }} Go</p>
 
-            <h3>Top 3 processus RAM</h3>
-            <ul>
-                {% for p in ram_process %}
-                <li>{{ loop.index }}. {{ p.nom }} — RAM : {{ p.ram }}% — CPU : {{ p.cpu }}%</li>
-                {% endfor %}
-            </ul>
-        </section>
+        <h3>Jauge RAM</h3>
+        <canvas id="ramGauge" width="200" height="160" aria-label="Jauge RAM"></canvas>
+    </section>
 
-        <!-- FICHIERS -->
-        <section class="section files-section" aria-labelledby="files-title">
-            <h2 id="files-title">Analyse des fichiers</h2>
-            <img src="./Images/icons8-dossier-50.png" alt="Icône dossier" class="icon">
+    <!-- ================= PROCESSUS ================= -->
+    <section class="process-section" aria-labelledby="process-title">
+        <h2 id="process-title">Top 3 des processus</h2>
+        <img src="./Images/icons8-tableau-de-bord-50.png" alt="Icône représentant le tableau de bord" class="icon">
 
-            <p>Nombre total de fichiers analysés : {{ files_count | sum }}</p>
+        <h3>Top 3 — Utilisation CPU</h3>
+        <ul>
+            {% for p in cpu_process %}
+            <li>{{ loop.index }}. {{ p.nom }} — CPU : {{ p.cpu }}% — RAM : {{ p.ram }}%</li>
+            {% endfor %}
+        </ul>
 
-            <h3>Répartition par type de fichiers et espace occupé</h3>
-            <ul>
-                {% set extensions = ['.txt', '.py', '.pdf', '.jpg', '.html', '.png', '.css', '.mp3', '.mp4', '.zip'] %}
-                {% for ext, count, percent, size in zip(extensions, files_count, percent_file_list, size_file_list) %}
-                <li>{{ ext }} : {{ count }} fichiers ({{ percent | round(2) }}%) — {{ size }}</li>
-                {% endfor %}
-            </ul>
+        <h3>Top 3 — Utilisation RAM</h3>
+        <ul>
+            {% for p in ram_process %}
+            <li>{{ loop.index }}. {{ p.nom }} — RAM : {{ p.ram }}% — CPU : {{ p.cpu }}%</li>
+            {% endfor %}
+        </ul>
+    </section>
 
-            <h3>Top 5 fichiers les plus volumineux</h3>
-            <ul>
-                {% for f, s in zip(top_size_file_list[0], top_size_file_list[1]) %}
-                <li>{{ f }} — {{ s }}</li>
-                {% endfor %}
-            </ul>
-        </section>
+    <!-- ================= FICHIERS ================= -->
+    <section class="files-section" aria-labelledby="files-title">
+        <h2 id="files-title">Analyse des fichiers</h2>
+        <img src="./Images/icons8-dossier-50.png" alt="Icône dossier" class="icon">
 
-    </div>
+        <p>Nombre total de fichiers analysés : {{ files_count | sum }}</p>
+
+        <h3>Répartition par type de fichiers et espace occupé</h3>
+        <ul>
+            {% set extensions = ['.txt', '.py', '.pdf', '.jpg', '.html', '.png', '.css', '.mp3', '.mp4', '.zip'] %}
+            {% for ext, count, percent, size in zip(extensions, files_count, percent_file_list, size_file_list) %}
+            <li>{{ ext }} : {{ count }} fichiers ({{ percent | round(2) }}%) — {{ size }}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Top 5 fichiers les plus volumineux</h3>
+        <ul>
+            {% for f, s in zip(top_size_file_list[0], top_size_file_list[1]) %}
+            <li>{{ f }} — {{ s }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
 </main>
 
-<footer role="contentinfo" aria-label="Pied de page">
+<footer class="footer" role="contentinfo" aria-label="Pied de page">
     <p>Challenge Triple A — Projet pédagogique — Gaïa, Logann, Anna</p>
 </footer>
 
+<!-- ================= Gauge.js ================= -->
+<script src="https://cdn.jsdelivr.net/npm/gaugeJS@1.3.7/dist/gauge.min.js"></script>
 <script>
+document.addEventListener("DOMContentLoaded", function() {
     // CPU Gauge
-    var optsCPU = {
-        angle: 0.15,
-        lineWidth: 0.25,
+    var cpuOpts = {
+        angle: 0,
+        lineWidth: 0.2,
         radiusScale: 0.9,
-        pointer: { length: 0.6, strokeWidth: 3, color: '#000' },
-        limitMax: true,
-        limitMin: true,
+        pointer: { length: 0.6, strokeWidth: 2, color: "#000000" },
+        limitMax: false,
+        limitMin: false,
+        strokeColor: '#E0E0E0',
+        generateGradient: true,
+        staticLabels: { font: "10px sans-serif", labels: [0,25,50,75,100], color:"#333", fractionDigits:0 },
         staticZones: [
             {strokeStyle: "green", min: 0, max: 50},
             {strokeStyle: "orange", min: 51, max: 80},
             {strokeStyle: "red", min: 81, max: 100}
-        ],
-        highDpiSupport: true
+        ]
     };
-    var gaugeCPU = new Gauge(document.getElementById('cpuGauge')).setOptions(optsCPU);
-    gaugeCPU.maxValue = 100;
-    gaugeCPU.setMinValue(0);
-    gaugeCPU.animationSpeed = 32;
-    gaugeCPU.set({{ cpu_usage }});
+    var cpuTarget = document.getElementById('cpuGauge');
+    var cpuGauge = new Gauge(cpuTarget).setOptions(cpuOpts);
+    cpuGauge.maxValue = 100;
+    cpuGauge.setMinValue(0);
+    cpuGauge.animationSpeed = 32;
+    cpuGauge.set({{ cpu_usage }});
 
     // RAM Gauge
-    var optsRAM = JSON.parse(JSON.stringify(optsCPU));
-    var gaugeRAM = new Gauge(document.getElementById('ramGauge')).setOptions(optsRAM);
-    gaugeRAM.maxValue = 100;
-    gaugeRAM.setMinValue(0);
-    gaugeRAM.animationSpeed = 32;
-    gaugeRAM.set({{ ram_percent }});
+    var ramOpts = JSON.parse(JSON.stringify(cpuOpts));
+    var ramTarget = document.getElementById('ramGauge');
+    var ramGauge = new Gauge(ramTarget).setOptions(ramOpts);
+    ramGauge.maxValue = 100;
+    ramGauge.setMinValue(0);
+    ramGauge.animationSpeed = 32;
+    ramGauge.set({{ ram_percent }});
+});
 </script>
 
 </body>

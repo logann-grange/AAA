@@ -1,59 +1,128 @@
-body {
+/* ================= Reset de base ================= */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
 
-header, footer {
-    background: #222;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
+/* ================= Corps ================= */
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.5;
+    padding: 20px;
 }
 
+/* ================= Header ================= */
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.timestamp {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* ================= Dashboard ================= */
 .dashboard {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-    padding: 20px;
 }
 
-.section {
-    background: #f0f0f0;
-    padding: 15px;
+/* ================= Sections ================= */
+.system-section,
+.cpu-section,
+.ram-section,
+.process-section,
+.files-section {
+    background-color: #ffffff;
     border-radius: 10px;
+    padding: 15px;
     flex: 1 1 300px;
     max-width: 350px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.system-section:hover,
+.cpu-section:hover,
+.ram-section:hover,
+.process-section:hover,
+.files-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
     text-align: center;
-    transition: transform 0.3s;
 }
 
-.section:hover {
-    transform: scale(1.05);
+section h3 {
+    font-size: 1.1rem;
+    margin: 10px 0;
 }
 
+/* ================= Images ================= */
 .icon {
+    display: block;
+    margin: 0 auto 10px auto;
     width: 50px;
     height: 50px;
-    margin-bottom: 10px;
 }
 
+/* ================= Listes ================= */
 ul {
-    padding-left: 20px;
-    text-align: left;
+    list-style: none;
+    margin-top: 10px;
 }
 
+ul li {
+    margin-bottom: 5px;
+}
+
+/* ================= Jauges ================= */
 canvas {
-    margin-bottom: 10px;
+    display: block;
+    margin: 10px auto;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
+/* ================= Footer ================= */
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* ================= Responsive ================= */
+@media screen and (max-width: 1200px) {
+    .dashboard {
+        justify-content: space-around;
+    }
+}
+
+@media screen and (max-width: 900px) {
     .dashboard {
         flex-direction: column;
         align-items: center;
     }
-    .section {
+
+    .system-section,
+    .cpu-section,
+    .ram-section,
+    .process-section,
+    .files-section {
         max-width: 90%;
     }
 }
