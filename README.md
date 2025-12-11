@@ -28,6 +28,7 @@ Le résultat final est un fichier **`index.html`** affichant un tableau de bord 
 - **Python 3.8+**
 - Modules Python :
   - `psutil`
+  - `flask`
   - `jinja2`
 
 ---
