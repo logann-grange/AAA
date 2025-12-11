@@ -1,170 +1,94 @@
-/* =========================
-   Global Styles
-   ========================= */
-body {
-    background-color: #f4f6f8;
-    color: #333;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    padding: 20px;
+/* Reset de base */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-/* =========================
-   Header
-   ========================= */
-.header {
+/* Body */
+body {
+    background-color: #f7f7f7;
+    color: #222;
+    line-height: 1.4;
+    padding: 20px;
+}
+
+/* Header & Footer */
+header.header, footer.footer {
     text-align: center;
     margin-bottom: 30px;
 }
 
-.header h1 {
-    font-size: 2rem;
-    color: #222;
-}
-
-.timestamp {
+footer.footer {
+    margin-top: 30px;
     font-size: 0.9rem;
-    color: #666;
-    margin-top: 5px;
+    color: #555;
 }
 
-/* =========================
-   Sections
-   ========================= */
+/* Sections */
 .section-block {
-    background-color: #fff;
+    background: #fff;
+    border-radius: 12px;
     padding: 20px;
-    margin-bottom: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.section-block h2 {
-    margin-bottom: 15px;
-    color: #1f4e79;
-}
-
-.section-block h3 {
-    margin-top: 15px;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.section-block img {
-    width: 40px;
-    vertical-align: middle;
-    margin-right: 10px;
-}
-
-/* =========================
-   Labels & Lists
-   ========================= */
+/* Labels */
 .label {
-    margin-bottom: 8px;
-    font-weight: 500;
+    margin: 5px 0;
 }
 
-.process-list, .file-types-list, ul {
-    list-style: none;
-    padding-left: 0;
+/* Lists */
+.process-list, .file-types-list, .core-list {
+    margin: 10px 0 0 20px;
 }
 
-.process-item, .file-types-list li {
-    padding: 6px 10px;
-    border-bottom: 1px solid #eee;
+/* ======================== GAUGES ======================== */
+.gauge-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 10px 0 20px;
 }
 
-/* =========================
-   Progress Bars / Gauges
-   ========================= */
-.progress {
-    background-color: #e0e0e0;
-    border-radius: 12px;
-    height: 25px;
+.gauge-circle {
     width: 100%;
-    margin-top: 5px;
+    height: 100%;
+    border-radius: 50%;
+    background: #eee;
+    position: relative;
+    transform: rotate(-90deg); /* pour arcs antihoraire */
     overflow: hidden;
 }
 
-.progress-bar {
-    height: 100%;
-    line-height: 25px;
-    color: #fff;
+.gauge-circle::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(var(--color) 0deg calc(var(--percent) * 3.6deg), transparent 0deg 360deg);
+}
+
+.gauge-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-weight: bold;
-    text-align: center;
-    border-radius: 12px 0 0 12px;
-    transition: width 0.5s ease;
 }
 
-.gauge {
-    display: inline-block;
-    height: 15px;
-    margin-left: 10px;
-    border-radius: 8px;
-    transition: width 0.5s ease;
-}
+/* Couleurs dynamiques */
+.gauge-circle.green { --color: #4caf50; }
+.gauge-circle.orange { --color: #ff9800; }
+.gauge-circle.red { --color: #f44336; }
 
-/* =========================
-   Dashboard Columns
-   ========================= */
+/* Dashboard layout */
 .dashboard {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.dashboard .section-block {
-    flex: 1 1 calc(33% - 20px); /* 3 colonnes sur grand écran */
-    min-width: 280px;
-}
-
-/* =========================
-   Footer
-   ========================= */
-.footer {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 0.85rem;
-    color: #666;
-}
-
-/* =========================
-   Colors based on usage
-   ========================= */
-.progress-bar.green, .gauge.green {
-    background-color: #4caf50;
-}
-
-.progress-bar.orange, .gauge.orange {
-    background-color: #ff9800;
-}
-
-.progress-bar.red, .gauge.red {
-    background-color: #f44336;
-}
-
-/* =========================
-   Responsive Design
-   ========================= */
-@media (max-width: 1200px) {
-    .dashboard .section-block {
-        flex: 1 1 calc(50% - 20px); /* 2 colonnes sur écran moyen */
-    }
-}
-
-@media (max-width: 768px) {
-    .dashboard {
-        flex-direction: column;
-    }
-
-    .section-block {
-        padding: 15px;
-        margin-bottom: 20px;
-    }
-
-    .header h1 {
-        font-size: 1.5rem;
-    }
+    flex-direction: column;
+    gap: 30px;
 }
 
