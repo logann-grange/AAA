@@ -12,17 +12,17 @@
 
 <body>
 
-<header class="header" role="banner">
-    <h1>Dashboard Monitoring – Challenge Triple A</h1>
-    <p class="timestamp">Démarré le : {{ start_time }}</p>
+<header class="header" role="banner" aria-label="En-tête du tableau de bord">
+    <h1 id="main-title">Dashboard Monitoring – Challenge Triple A</h1>
+    <p class="timestamp" aria-live="polite">Démarré le : {{ start_time }}</p>
 </header>
 
-<main class="dashboard" role="main">
+<main role="main" class="dashboard" aria-labelledby="main-title">
 
-    <!-- SYSTÈME -->
-    <section class="section-block system-section" aria-labelledby="system-title">
+    <!-- ================= SYSTEME ================= -->
+    <section class="section-block system-section" aria-labelledby="system-title" role="region">
         <h2 id="system-title">Système</h2>
-        <img src="./Images/icons8-paramètres.png" alt="Icône des paramètres de l'ordinateur">
+        <img src="./Images/icons8-paramètres.png" alt="Icône des paramètres de l'ordinateur" role="img">
 
         <p class="label">Nom de la machine : {{ system_name }}</p>
         <p class="label">Système d’exploitation : {{ system_os }}</p>
@@ -32,107 +32,107 @@
         <p class="label">Nombre d’utilisateurs connectés : {{ users_nb }}</p>
         <p class="label">Adresse IP principale : {{ ip }}</p>
 
-        <h3>Charge système</h3>
-        <p>Load 1 min : {{ load1 }}</p>
-        <p>Load 5 min : {{ load5 }}</p>
-        <p>Load 15 min : {{ load15 }}</p>
+        <h3 id="load-title">Charge système</h3>
+        <p class="label">Load 1 min : {{ load1 }}</p>
+        <p class="label">Load 5 min : {{ load5 }}</p>
+        <p class="label">Load 15 min : {{ load15 }}</p>
     </section>
 
-    <!-- CPU -->
-    <section class="section-block cpu-section" aria-labelledby="cpu-title">
+    <!-- ================= CPU ================= -->
+    <section class="section-block cpu-section" aria-labelledby="cpu-title" role="region">
         <h2 id="cpu-title">CPU</h2>
-        <img src="./Images/icons8-cpu-50.png" alt="Icône du processeur">
+        <img src="./Images/icons8-cpu-50.png" alt="Icône du processeur" role="img">
 
         <p class="label">Nombre de cœurs : {{ nb_core }}</p>
         <p class="label">Fréquence actuelle : {{ cpu_freq }} MHz</p>
 
-        <h3>Utilisation CPU globale</h3>
+        <h3 id="cpu-global-title">Utilisation CPU globale</h3>
         <div class="gauge-container" role="progressbar"
-             aria-valuenow="{{ cpu_usage }}" aria-valuemin="0" aria-valuemax="100"
-             aria-label="Utilisation CPU globale">
+             aria-labelledby="cpu-global-title"
+             aria-valuenow="{{ cpu_usage }}" aria-valuemin="0" aria-valuemax="100">
             <div class="gauge-circle {{ cpu_color }}" style="--percent: {{ cpu_usage }};"></div>
-            <div class="gauge-label">{{ cpu_usage }}%</div>
+            <p class="gauge-label">{{ cpu_usage }}%</p>
         </div>
 
-        <h3>Utilisation par cœur</h3>
-        <ul class="core-list" aria-label="Utilisation CPU par cœur">
+        <h3 id="cpu-core-title">Utilisation par cœur</h3>
+        <ul class="core-list" role="list" aria-labelledby="cpu-core-title">
             {% for i in range(nb_core) %}
-            <li>
-                Cœur {{ i+1 }} : {{ core_percent[i] }}%
+            <li role="listitem">
+                <p class="label">Cœur {{ i+1 }} : {{ core_percent[i] }}%</p>
                 <div class="gauge-container" role="progressbar"
                      aria-valuenow="{{ core_percent[i] }}" aria-valuemin="0" aria-valuemax="100"
-                     aria-label="Cœur {{ i+1 }} utilisation CPU">
+                     aria-label="Cœur {{ i+1 }}">
                     <div class="gauge-circle {{ core_colors[i] }}" style="--percent: {{ core_percent[i] }};"></div>
-                    <div class="gauge-label">{{ core_percent[i] }}%</div>
+                    <p class="gauge-label">{{ core_percent[i] }}%</p>
                 </div>
             </li>
             {% endfor %}
         </ul>
     </section>
 
-    <!-- RAM -->
-    <section class="section-block ram-section" aria-labelledby="ram-title">
+    <!-- ================= RAM ================= -->
+    <section class="section-block ram-section" aria-labelledby="ram-title" role="region">
         <h2 id="ram-title">Mémoire RAM</h2>
-        <img src="./Images/icons8-ram-60.png" alt="Icône de la RAM">
+        <img src="./Images/icons8-ram-60.png" alt="Icône de la RAM" role="img">
 
         <p class="label">RAM totale : {{ ram_total }} Go</p>
         <p class="label">RAM utilisée : {{ ram_usage }} Go</p>
 
-        <h3>Utilisation RAM</h3>
+        <h3 id="ram-usage-title">Utilisation RAM</h3>
         <div class="gauge-container" role="progressbar"
-             aria-valuenow="{{ ram_percent }}" aria-valuemin="0" aria-valuemax="100"
-             aria-label="Utilisation RAM">
+             aria-labelledby="ram-usage-title"
+             aria-valuenow="{{ ram_percent }}" aria-valuemin="0" aria-valuemax="100">
             <div class="gauge-circle {{ ram_color }}" style="--percent: {{ ram_percent }};"></div>
-            <div class="gauge-label">{{ ram_percent }}%</div>
+            <p class="gauge-label">{{ ram_percent }}%</p>
         </div>
     </section>
 
-    <!-- PROCESSUS -->
-    <section class="section-block process-section" aria-labelledby="process-title">
+    <!-- ================= PROCESSUS ================= -->
+    <section class="section-block process-section" aria-labelledby="process-title" role="region">
         <h2 id="process-title">Top 3 des processus</h2>
-        <img src="./Images/icons8-tableau-de-bord-50.png" alt="Icône représentant le tableau de bord">
+        <img src="./Images/icons8-tableau-de-bord-50.png" alt="Icône représentant le tableau de bord" role="img">
 
-        <h3>Top 3 — Utilisation CPU</h3>
-        <ul class="process-list" aria-label="Top 3 processus CPU">
+        <h3 id="process-cpu-title">Top 3 — Utilisation CPU</h3>
+        <ul class="process-list" role="list" aria-labelledby="process-cpu-title">
             {% for p in cpu_process %}
-            <li>{{ loop.index }}. {{ p.nom }} — CPU : {{ p.cpu }}% — RAM : {{ p.ram }}%</li>
+            <li role="listitem">{{ loop.index }}. {{ p.nom }} — CPU : {{ p.cpu }}% — RAM : {{ p.ram }}%</li>
             {% endfor %}
         </ul>
 
-        <h3>Top 3 — Utilisation RAM</h3>
-        <ul class="process-list" aria-label="Top 3 processus RAM">
+        <h3 id="process-ram-title">Top 3 — Utilisation RAM</h3>
+        <ul class="process-list" role="list" aria-labelledby="process-ram-title">
             {% for p in ram_process %}
-            <li>{{ loop.index }}. {{ p.nom }} — RAM : {{ p.ram }}% — CPU : {{ p.cpu }}%</li>
+            <li role="listitem">{{ loop.index }}. {{ p.nom }} — RAM : {{ p.ram }}% — CPU : {{ p.cpu }}%</li>
             {% endfor %}
         </ul>
     </section>
 
-    <!-- FICHIERS -->
-    <section class="section-block files-section" aria-labelledby="files-title">
+    <!-- ================= FICHIERS ================= -->
+    <section class="section-block files-section" aria-labelledby="files-title" role="region">
         <h2 id="files-title">Analyse des fichiers</h2>
-        <img src="./Images/icons8-dossier-50.png" alt="Icône dossier">
+        <img src="./Images/icons8-dossier-50.png" alt="Icône dossier" role="img">
 
-        <p class="label">Nombre total de fichiers analysés : {{ files_count | sum }}</p>
+        <p aria-live="polite">Nombre total de fichiers analysés : {{ files_count | sum }}</p>
 
-        <h3>Répartition par type de fichiers et espace occupé</h3>
-        <ul class="file-types-list" aria-label="Répartition des fichiers par type">
+        <h3 id="file-types-title">Répartition par type de fichiers et espace occupé</h3>
+        <ul class="file-types-list" role="list" aria-labelledby="file-types-title">
             {% set extensions = ['.txt', '.py', '.pdf', '.jpg', '.html', '.png', '.css', '.mp3', '.mp4', '.zip'] %}
             {% for i in range(10) %}
-            <li>{{ extensions[i] }} : {{ files_count[i] }} fichiers ({{ percent_file_list[i] | round(2) }}%) — {{ size_file_list[i] }}</li>
+            <li role="listitem">{{ extensions[i] }} : {{ files_count[i] }} fichiers ({{ percent_file_list[i] | round(2) }}%) — {{ size_file_list[i] }}</li>
             {% endfor %}
         </ul>
 
-        <h3>Top 5 fichiers les plus volumineux</h3>
-        <ul class="file-types-list" aria-label="Top 5 fichiers les plus volumineux">
+        <h3 id="top-files-title">Top 5 fichiers les plus volumineux</h3>
+        <ul class="file-types-list" role="list" aria-labelledby="top-files-title">
             {% for f, s in zip(top_size_file_list[0], top_size_file_list[1]) %}
-            <li>{{ f }} — {{ s }}</li>
+            <li role="listitem">{{ f }} — {{ s }}</li>
             {% endfor %}
         </ul>
     </section>
 
 </main>
 
-<footer class="footer" role="contentinfo">
+<footer class="footer" role="contentinfo" aria-label="Pied de page">
     <p>Challenge Triple A — Projet pédagogique — Gaïa, Logann, Anna</p>
 </footer>
 
