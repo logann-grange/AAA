@@ -110,8 +110,8 @@
 
             <h3>Top 5 fichiers les plus volumineux</h3>
             <ul class="file-types-list">
-                {% for f, s in zip(top_size_file_list[0], top_size_file_list[1]) %}
-                <li>{{ f }} — {{ s }}</li>
+                {% for i in range(top_size_file_list[0]|length) %}
+                <li>{{ top_size_file_list[0][i] }} — {{ top_size_file_list[1][i] }}</li>
                 {% endfor %}
             </ul>
         </section>
