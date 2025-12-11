@@ -48,15 +48,14 @@
             <p class="label">Fréquence actuelle : {{ cpu_freq }} MHz</p>
 
             <h3>Utilisation CPU globale</h3>
-            <div class="progress" role="progressbar" aria-valuenow="{{ cpu_usage }}" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar {{ cpu_color }}">{{ cpu_usage }}%</div>
-            </div>
+            <div class="progress cpu-global" data-percent="{{ cpu_usage }}"></div>
 
             <h3>Utilisation par cœur</h3>
-            <ul>
+            <ul class="core-list">
                 {% for i in range(nb_core) %}
-                <li>Cœur {{ i+1 }} : {{ core_percent[i] }}%
-                    <span class="gauge {{ core_colors[i] }}" style="width: {{ core_percent[i] }}%;"></span>
+                <li>
+                    Cœur {{ i+1 }} : {{ core_percent[i] }}%
+                    <div class="gauge-core" data-percent="{{ core_percent[i] }}"></div>
                 </li>
                 {% endfor %}
             </ul>
@@ -71,9 +70,7 @@
             <p class="label">RAM utilisée : {{ ram_usage }} Go</p>
 
             <h3>Utilisation RAM</h3>
-            <div class="progress" role="progressbar" aria-valuenow="{{ ram_percent }}" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar {{ ram_color }}">{{ ram_percent }}%</div>
-            </div>
+            <div class="progress ram-global" data-percent="{{ ram_percent }}"></div>
         </section>
 
         <!-- PROCESSUS -->
