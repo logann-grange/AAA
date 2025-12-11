@@ -117,7 +117,7 @@ La page se mettra à jour toutes les 30 secondes.
 
 ## 🐞 Difficultés rencontrées
 - Problèmes réseau de la VM 
-- (À compléter)
+- création des jauges
 
 ---
 
