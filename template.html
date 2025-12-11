@@ -103,15 +103,15 @@
         <h3>Répartition par type de fichiers et espace occupé</h3>
         <ul>
             {% set extensions = ['.txt', '.py', '.pdf', '.jpg', '.html', '.png', '.css', '.mp3', '.mp4', '.zip'] %}
-            {% for ext, count, percent, size in zip(extensions, files_count, percent_file_list, size_file_list) %}
-            <li>{{ ext }} : {{ count }} fichiers ({{ percent | round(2) }}%) — {{ size }}</li>
+            {% for i in range(extensions|length) %}
+            <li>{{ extensions[i] }} : {{ files_count[i] }} fichiers ({{ percent_file_list[i] | round(2) }}%) — {{ size_file_list[i] }}</li>
             {% endfor %}
         </ul>
 
         <h3>Top 5 fichiers les plus volumineux</h3>
         <ul>
-            {% for f, s in zip(top_size_file_list[0], top_size_file_list[1]) %}
-            <li>{{ f }} — {{ s }}</li>
+            {% for i in range(top_size_file_list[0]|length) %}
+            <li>{{ top_size_file_list[0][i] }} — {{ top_size_file_list[1][i] }}</li>
             {% endfor %}
         </ul>
     </section>
