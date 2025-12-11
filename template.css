@@ -1,110 +1,60 @@
-/* ===== Reset ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    color: #333;
-    line-height: 1.5;
 }
 
 header, footer {
     background: #222;
     color: #fff;
-    padding: 10px;
     text-align: center;
+    padding: 10px;
 }
 
 .dashboard {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 10px;
-    gap: 10px;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
 }
 
-section {
-    background: #fff;
-    border-radius: 8px;
-    padding: 10px;
+.section {
+    background: #f0f0f0;
+    padding: 15px;
+    border-radius: 10px;
     flex: 1 1 300px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease;
+    max-width: 350px;
+    text-align: center;
+    transition: transform 0.3s;
 }
 
-section:hover {
-    transform: translateY(-5px);
+.section:hover {
+    transform: scale(1.05);
 }
 
-section img {
+.icon {
     width: 50px;
     height: 50px;
-    margin-right: 10px;
-    vertical-align: middle;
+    margin-bottom: 10px;
 }
 
-/* ===== Gauges ===== */
-.gauge {
-    position: relative;
-    width: 120px;
-    height: 60px;
-    margin: 10px auto;
-    border-top-left-radius: 120px;
-    border-top-right-radius: 120px;
-    background: #ddd;
-    overflow: hidden;
+ul {
+    padding-left: 20px;
+    text-align: left;
 }
 
-.gauge-cover {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
+canvas {
+    margin-bottom: 10px;
 }
 
-.gauge-needle {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 2px;
-    height: 60px;
-    background: black;
-    transform-origin: bottom center;
-    transition: transform 0.5s ease;
-}
-
-/* ===== Couleurs CPU/RAM ===== */
-.green { background-color: #4CAF50; color: #fff; }
-.orange { background-color: #FF9800; color: #fff; }
-.red { background-color: #F44336; color: #fff; }
-
-/* ===== Core gauges ===== */
-.core-gauge {
-    height: 10px;
-    background-color: #ddd;
-    margin: 5px 0;
-}
-
-.core-list li {
-    list-style: none;
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-}
-
-.core-gauge.green { background-color: #4CAF50; }
-.core-gauge.orange { background-color: #FF9800; }
-.core-gauge.red { background-color: #F44336; }
-
-/* ===== Responsiveness ===== */
+/* Responsive */
 @media (max-width: 900px) {
     .dashboard {
         flex-direction: column;
+        align-items: center;
+    }
+    .section {
+        max-width: 90%;
     }
 }
 
