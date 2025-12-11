@@ -21,13 +21,108 @@ def process() :
 
     return process_list
 
+#========== Files size unit ==========#
+def byte_unit(byte):
+    for unite in ['o', 'Ko', 'Mo', 'Go', 'To']:
+        if byte < 1024.0:
+            return f"{byte:.2f} {unite}"
+        byte /= 1024.0
+    return f"{byte:.2f} Po"
+
+#======== Top file size ==========#
+def top_files(size_files_list) :
+    files_list = sorted(size_files_list[0], key=lambda f: os.path.getsize(f), reverse=True)[:5]
+    size_list = sorted(size_files_list[1], reverse=True)[:5]
+
+    sorted_list = [files_list, size_list] 
+
+    return sorted_list
+
 #============ Files list =============#
-"""def file_list(count_file=[], path=os.path.expanduser('~')) :
-    files = os.listdir(path)
+def file_list(files = [], count_file=[0,0,0,0,0,0,0,0,0,0], size_list=[] ,path=os.path.join(os.path.expanduser('~'), 'Documents')) :
+    try:
+        dir_list = os.listdir(path)
+    except PermissionError:
+        #print(f"Accès refusé au dossier : {path}")
+        return files
+    except Exception as e:
+        #print(f"Erreur lors de l'accès à {path} : {e}")
+        return files
+    
+    for element in dir_list:
+        element_path = os.path.join(path, element)
+        try:
+            # Extension test
+            if os.path.isfile(element_path) :
+                extension = os.path.splitext(element_path)[1]
+                size = os.path.getsize(element_path)
+                match extension :
+                    case '.txt' :
+                        count_file[0] += 1
+                        files.append(element_path)  # Sauvegarder le fichier dans 
+                        size_list.append(byte_unit(size))
+                    case '.py' :
+                        count_file[1] += 1
+                        files.append(element_path)
+                        size_list.append(byte_unit(size))
 
-    for file in files :
+                    case '.pdf' : 
+                        count_file[2] += 1
+                        files.append(element_path)
+                        size_list.append(byte_unit(size))
 
-    return files"""
+                    case '.jpg' :
+                        count_file[3] += 1
+                        files.append(element_path)
+                        size_list.append(byte_unit(size))
+                    case '.html' :
+                        count_file[4] += 1
+                        files.append(element_path)
+                        size_list.append(byte_unit(size))
+                    case '.png' :
+                        count_file[5] += 1
+                        files.append(element_path)
+                        size_list.append(byte_unit(size))
+                    case '.css' :
+                        count_file[6] += 1
+                        files.append(element_path)
+                        size_list.append(byte_unit(size))
+                    case '.mp3' :
+                        count_file[7] += 1
+                        files.append(element_path)
+                        size_list.append(byte_unit(size))
+                    case '.mp4' :
+                        count_file[8] += 1
+                        files.append(element_path)
+                        size_list.append(byte_unit(size))
+                    case '.zip' :
+                        count_file[9] += 1
+                        files.append(element_path)
+                        size_list.append(byte_unit(size))
+
+            elif os.path.isdir(element_path):
+                file_list(files, count_file, size_list, element_path)
+        except PermissionError:
+            #print(f"Accès refusé à : {element_path}")
+            print()
+    files_and_count = [files, count_file, size_list]
+    
+    #return files
+    return files_and_count
+
+def percent_files(count) :
+    percent_list = []
+    total = 0
+    # calcul total number of files
+    for nb in count :
+        total += nb
+    
+    for val in count :
+        percent_list.append((val/total)*100)
+    
+    return percent_list
+
+
 
 #============ Police color ===========#
 def police_color(nb) :
@@ -42,7 +137,8 @@ def police_color(nb) :
 
     return color
 
-#print ("+++++++++++++++++++++++++++++++++++++++++++++++++",file_list())
+#print (file_list()[1])
+#print (file_list()[2])
 
 app = Flask(__name__)
 @app.route('/')
@@ -78,7 +174,14 @@ def transfert_data() :
     s.connect(("8.8.8.8", 80))
     ip = s.getsockname()[0]
     s.close()
-    
+
+    #============= Files =============#
+    files_list = file_list()
+    files = files_list[0]
+    files_count = files_list[1]
+    size_list = files_list[2]
+    percent_file_list = percent_files(files_list[1])
+    top_file_list = top_files([files, size_list])
 
     #============= Data ==============#
     data = {
@@ -102,7 +205,12 @@ def transfert_data() :
         'ram_color' : ram_color,
         'ip' : ip,
         'cpu_process' : sorted(process(), key=lambda x: x['cpu'], reverse=True)[:3],
-        'ram_process' : sorted(process(), key=lambda x: x['ram'], reverse=True)[:3]
+        'ram_process' : sorted(process(), key=lambda x: x['ram'], reverse=True)[:3],
+        'files_list' : files,
+        'files_count' : files_count,
+        'percent_file_list' : percent_file_list,
+        'size_file_list' : size_list,
+        'top_size_file_list' : top_file_list
     }
     return render_template('template.html', **data)
 
