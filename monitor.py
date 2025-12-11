@@ -167,6 +167,10 @@ def transfert_data() :
     core_percentages = psutil.cpu_percent(interval=1, percpu=True)
     cpu_freq = psutil.cpu_freq()
     cpu_color = police_color(cpu_usage)
+    core_color = []
+    for percent in core_percentages :
+        core_color.append(police_color(percent))
+
 
     #============== RAM ==============#
     ram_usage = round(psutil.virtual_memory().used / (1024**3), 2)
@@ -204,7 +208,7 @@ def transfert_data() :
         'cpu_freq' : cpu_freq.current,
         'nb_core' : nb_core,
         'core_percent' : core_percentages,
-        'core_color' : police_color(core_percentages),
+        'core_colors' : core_color,
         'cpu_color' : cpu_color,
         'ram_usage' : ram_usage,
         'ram_percent' : ram_percent,
