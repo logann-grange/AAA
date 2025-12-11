@@ -1,116 +1,126 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Monitoring</title>
-    <link rel="stylesheet" href="template.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="30">
+    <title>Dashboard Monitoring – Challenge Triple A</title>
+    <link rel="icon" type="image/ico" href="./Images/favicon.ico">
+    <link rel="stylesheet" href="./template.css">
 </head>
 
 <body>
 
-<header>
+<header role="banner" aria-label="En-tête principal">
     <h1>Dashboard Monitoring – Challenge Triple A</h1>
     <p>Démarré le : {{ start_time }}</p>
 </header>
 
-<main class="grid">
+<main role="main" aria-label="Tableau de bord principal">
+
+    <!-- SYSTÈME -->
+    <section aria-labelledby="system-title">
+        <h2 id="system-title">Système</h2>
+        <img src="./Images/icons8-paramètres.png" alt="Icône des paramètres de l'ordinateur" width="50" height="50">
+        <p>Nom de la machine : {{ system_name }}</p>
+        <p>Système d’exploitation : {{ system_os }}</p>
+        <p>Architecture : {{ system_arch }}</p>
+        <p>Heure de démarrage : {{ start_time }}</p>
+        <p>Uptime : {{ uptime_day }} jours, {{ uptime_hour }} h, {{ uptime_min }} min</p>
+        <p>Nombre d’utilisateurs connectés : {{ users_nb }}</p>
+        <p>Adresse IP principale : {{ ip }}</p>
+        <h3>Charge système</h3>
+        <p>Load 1 min : {{ load1 }}</p>
+        <p>Load 5 min : {{ load5 }}</p>
+        <p>Load 15 min : {{ load15 }}</p>
+    </section>
 
     <!-- CPU -->
-    <section class="card">
-        <div class="icon"><img src="./Images/icons8-cpu-50.png" alt="CPU"></div>
+    <section aria-labelledby="cpu-title">
+        <h2 id="cpu-title">CPU</h2>
+        <img src="./Images/icons8-cpu-50.png" alt="Icône du processeur" width="50" height="50">
+        <p>Nombre de cœurs : {{ nb_core }}</p>
+        <p>Fréquence actuelle : {{ cpu_freq }} MHz</p>
 
-        <div class="info">
-            <h2>Processeur</h2>
-            <p>Cœurs : {{ nb_core }}</p>
-            <p>Fréquence : {{ cpu_freq }} MHz</p>
-            <p>Utilisation : {{ cpu_usage }}%</p>
-        </div>
-
-        <div class="gauge gauge-{{ cpu_color }}">
-            <div class="semi"><div class="needle angle-{{ cpu_usage }}"></div></div>
+        <h3>Utilisation CPU globale</h3>
+        <div class="gauge gauge-{{ cpu_color }}" role="img" aria-label="Jauge CPU" aria-valuenow="{{ cpu_usage }}" aria-valuemin="0" aria-valuemax="100">
+            <div class="semi">
+                <div class="needle" style="transform: rotate({{ -90 + cpu_usage * 1.8 }}deg);"></div>
+            </div>
             <div class="value">{{ cpu_usage }}%</div>
         </div>
+
+        <h3>Utilisation par cœur</h3>
+        <ul>
+            {% for i in range(nb_core) %}
+            <li>Cœur {{ i+1 }} : {{ core_percent[i] }}% — Couleur : {{ core_colors[i] }}</li>
+            {% endfor %}
+        </ul>
     </section>
 
     <!-- RAM -->
-    <section class="card">
-        <div class="icon"><img src="./Images/icons8-ram-60.png" alt="RAM"></div>
+    <section aria-labelledby="ram-title">
+        <h2 id="ram-title">Mémoire RAM</h2>
+        <img src="./Images/icons8-ram-60.png" alt="Icône de la RAM" width="50" height="50">
+        <p>RAM totale : {{ ram_total }} Go</p>
+        <p>RAM utilisée : {{ ram_usage }} Go</p>
 
-        <div class="info">
-            <h2>Mémoire RAM</h2>
-            <p>Totale : {{ ram_total }} Go</p>
-            <p>Utilisée : {{ ram_usage }} Go</p>
-            <p>Utilisation : {{ ram_percent }}%</p>
-        </div>
-
-        <div class="gauge gauge-{{ ram_color }}">
-            <div class="semi"><div class="needle angle-{{ ram_percent }}"></div></div>
+        <h3>Utilisation RAM</h3>
+        <div class="gauge gauge-{{ ram_color }}" role="img" aria-label="Jauge RAM" aria-valuenow="{{ ram_percent }}" aria-valuemin="0" aria-valuemax="100">
+            <div class="semi">
+                <div class="needle" style="transform: rotate({{ -90 + ram_percent * 1.8 }}deg);"></div>
+            </div>
             <div class="value">{{ ram_percent }}%</div>
         </div>
     </section>
 
-    <!-- SYSTEME -->
-    <section class="card">
-        <div class="icon"><img src="./Images/icons8-paramètres.png" alt="Système"></div>
-
-        <div class="info">
-            <h2>Système</h2>
-            <p>Nom : {{ system_name }}</p>
-            <p>OS : {{ system_os }}</p>
-            <p>Architecture : {{ system_arch }}</p>
-            <p>Uptime : {{ uptime_day }} j {{ uptime_hour }}h {{ uptime_min }}min</p>
-            <p>IP : {{ ip }}</p>
-        </div>
-    </section>
-
     <!-- PROCESSUS -->
-    <section class="card">
-        <div class="icon"><img src="./Images/icons8-tableau-de-bord-50.png" alt="Process"></div>
+    <section aria-labelledby="process-title">
+        <h2 id="process-title">Top 3 des processus</h2>
+        <img src="./Images/icons8-tableau-de-bord-50.png" alt="Icône représentant le tableau de bord" width="50" height="50">
 
-        <div class="info">
-            <h2>Top processus CPU</h2>
-            <ul>
-                {% for p in cpu_process %}
-                <li>{{ p.nom }} — CPU {{ p.cpu }}% — RAM {{ p.ram }}%</li>
-                {% endfor %}
-            </ul>
+        <h3>Top 3 — Utilisation CPU</h3>
+        <ul>
+            {% for p in cpu_process %}
+            <li>{{ loop.index }}. {{ p.nom }} — CPU : {{ p.cpu }}% — RAM : {{ p.ram }}%</li>
+            {% endfor %}
+        </ul>
 
-            <h2>Top processus RAM</h2>
-            <ul>
-                {% for p in ram_process %}
-                <li>{{ p.nom }} — RAM {{ p.ram }}% — CPU {{ p.cpu }}%</li>
-                {% endfor %}
-            </ul>
-        </div>
+        <h3>Top 3 — Utilisation RAM</h3>
+        <ul>
+            {% for p in ram_process %}
+            <li>{{ loop.index }}. {{ p.nom }} — RAM : {{ p.ram }}% — CPU : {{ p.cpu }}%</li>
+            {% endfor %}
+        </ul>
     </section>
 
-    <!-- ANALYSE DES FICHIERS -->
-    <section class="card large">
-        <div class="icon"><img src="./Images/icons8-dossier-50.png" alt="Fichiers"></div>
+    <!-- FICHIERS -->
+    <section aria-labelledby="files-title">
+        <h2 id="files-title">Analyse des fichiers</h2>
+        <img src="./Images/icons8-dossier-50.png" alt="Icône dossier" width="50" height="50">
 
-        <div class="info">
-            <h2>Analyse des fichiers</h2>
-            <p>Total fichiers : {{ total_files }}</p>
+        <p>Nombre total de fichiers analysés : {{ files_count | sum }}</p>
 
-            <h3>Par extension</h3>
-            <ul>
-                {% for item in files_info %}
-                <li>{{ item.ext }} : {{ item.count }} fichiers ({{ item.percent }}%) — {{ item.size }}</li>
-                {% endfor %}
-            </ul>
+        <h3>Répartition par type de fichiers et espace occupé</h3>
+        <ul>
+            {% set extensions = ['.txt', '.py', '.pdf', '.jpg', '.html', '.png', '.css', '.mp3', '.mp4', '.zip'] %}
+            {% for ext, count, percent, size in zip(extensions, files_count, percent_file_list, size_file_list) %}
+            <li>{{ ext }} : {{ count }} fichiers ({{ percent | round(2) }}%) — {{ size }}</li>
+            {% endfor %}
+        </ul>
 
-            <h3>Top 5 fichiers les plus volumineux</h3>
-            <ul>
-                {% for f in top_files %}
-                <li>{{ f.name }} — {{ f.size }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+        <h3>Top 5 fichiers les plus volumineux</h3>
+        <ul>
+            {% for f, s in zip(top_size_file_list[0], top_size_file_list[1]) %}
+            <li>{{ f }} — {{ s }}</li>
+            {% endfor %}
+        </ul>
     </section>
 
 </main>
 
-<footer>
+<footer role="contentinfo" aria-label="Pied de page">
     <p>Challenge Triple A — Projet pédagogique — Gaïa, Logann, Anna</p>
 </footer>
 

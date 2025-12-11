@@ -1,98 +1,79 @@
 body {
     font-family: Arial, sans-serif;
-    background: #eef1f5;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
-header h1 {
+header, footer {
+    background: #f0f0f0;
+    padding: 1em;
     text-align: center;
-    margin: 5px 0 10px 0;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
-}
-
-.card {
-    background: white;
+main {
     display: flex;
-    gap: 20px;
-    padding: 20px;
-    border-radius: 15px;
-    transition: transform .3s, box-shadow .3s;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 1em;
 }
 
-.card.large {
-    grid-column: span 2;
+section {
+    flex: 1 1 300px;
+    margin: 1em;
+    padding: 1em;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: transform 0.3s;
 }
 
-.card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 25px rgba(0,0,0,.15);
+section:hover {
+    transform: scale(1.05);
 }
 
-.icon img {
-    width: 70px;
-}
-
-.info h2 {
-    margin: 0 0 10px 0;
-}
-
-.info ul {
-    margin: 5px 0;
-    padding-left: 18px;
+section img {
+    float: left;
+    margin-right: 10px;
 }
 
 .gauge {
-    width: 130px;
-    text-align: center;
+    position: relative;
+    width: 120px;
+    height: 60px; /* demi-cercle */
+    border-top-left-radius: 120px;
+    border-top-right-radius: 120px;
+    background: #ddd;
+    margin: 10px 0;
 }
 
 .semi {
-    width: 120px;
-    height: 60px;
-    border-radius: 120px 120px 0 0;
-    border: 12px solid transparent;
-    border-top-color: #ccc;
     position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .needle {
-    width: 4px;
-    height: 56px;
-    background: black;
     position: absolute;
-    left: 58px;
-    bottom: -5px;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    height: 50%;
+    background: black;
     transform-origin: bottom center;
+    transition: transform 0.5s ease-out;
 }
 
-/* couleurs */
-.gauge-green .semi  { border-top-color: #31c731; }
-.gauge-orange .semi { border-top-color: #ff9800; }
-.gauge-red .semi    { border-top-color: #ff3030; }
+.gauge.green .needle { background: green; }
+.gauge.orange .needle { background: orange; }
+.gauge.red .needle { background: red; }
 
 .value {
+    text-align: center;
     margin-top: 5px;
-    font-weight: bold;
 }
 
-/* responsive */
 @media (max-width: 900px) {
-    .grid {
-        grid-template-columns: 1fr;
+    main {
+        flex-direction: column;
+        align-items: center;
     }
-    .card.large {
-        grid-column: span 1;
-    }
-}
-
-/* ANGLES 0-100% = -90° à +90° */
-{% for i in range(101) %}
-.angle-{{ i }} { transform: rotate({{ -90 + i*1.8 }}deg); }
-{% endfor %}
 
