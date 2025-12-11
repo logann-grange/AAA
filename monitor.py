@@ -135,9 +135,6 @@ def police_color(nb) :
 
     return color
 
-#print (file_list()[1])
-#print (file_list()[2])
-
 app = Flask(__name__)
 @app.route('/')
 
@@ -164,7 +161,6 @@ def transfert_data() :
     cpu_usage = psutil.cpu_percent(interval=1)
     nb_core = psutil.cpu_count(logical=True)
     core_percentages = psutil.cpu_percent(interval=1, percpu=True)
-    print(core_percentages)
     cpu_freq = psutil.cpu_freq()
     cpu_color = police_color(cpu_usage)
 
