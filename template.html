@@ -8,7 +8,7 @@
     <title>Dashboard Monitoring – Challenge Triple A</title>
 
     <link rel="icon" type="image/ico" href="./Images/favicon.ico">
-    <link rel="stylesheet" href="template.css">
+    <link rel="stylesheet" href="../template.css">
 </head>
 
 <body>
@@ -110,7 +110,7 @@
 
         <h3>Répartition par type de fichiers</h3>
         <ul class="file-types-list">
-            {% set extensions = ['.txt', '.py', '.pdf', '.jpg'] %}
+            {% set extensions = ['.txt', '.py', '.pdf', '.jpg', '.html', '.png', '.css', '.mp3', '.mp4', '.zip'] %}
             {% for i in range(10) %}
             <li>{{ extensions[i] }} : {{ files_count[i] }} fichiers ({{ percent_file_list[i] | round(2) }}%)</li>
             {% endfor %}
