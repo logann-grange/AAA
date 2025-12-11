@@ -1,0 +1,170 @@
+/* =========================
+   Global Styles
+   ========================= */
+body {
+    background-color: #f4f6f8;
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    margin: 0;
+}
+
+/* =========================
+   Header
+   ========================= */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: #222;
+}
+
+.timestamp {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* =========================
+   Sections
+   ========================= */
+.section-block {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.section-block h2 {
+    margin-bottom: 15px;
+    color: #1f4e79;
+}
+
+.section-block h3 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.section-block img {
+    width: 40px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+/* =========================
+   Labels & Lists
+   ========================= */
+.label {
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.process-list, .file-types-list, ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.process-item, .file-types-list li {
+    padding: 6px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* =========================
+   Progress Bars / Gauges
+   ========================= */
+.progress {
+    background-color: #e0e0e0;
+    border-radius: 12px;
+    height: 25px;
+    width: 100%;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    line-height: 25px;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 12px 0 0 12px;
+    transition: width 0.5s ease;
+}
+
+.gauge {
+    display: inline-block;
+    height: 15px;
+    margin-left: 10px;
+    border-radius: 8px;
+    transition: width 0.5s ease;
+}
+
+/* =========================
+   Dashboard Columns
+   ========================= */
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.dashboard .section-block {
+    flex: 1 1 calc(33% - 20px); /* 3 colonnes sur grand écran */
+    min-width: 280px;
+}
+
+/* =========================
+   Footer
+   ========================= */
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* =========================
+   Colors based on usage
+   ========================= */
+.progress-bar.green, .gauge.green {
+    background-color: #4caf50;
+}
+
+.progress-bar.orange, .gauge.orange {
+    background-color: #ff9800;
+}
+
+.progress-bar.red, .gauge.red {
+    background-color: #f44336;
+}
+
+/* =========================
+   Responsive Design
+   ========================= */
+@media (max-width: 1200px) {
+    .dashboard .section-block {
+        flex: 1 1 calc(50% - 20px); /* 2 colonnes sur écran moyen */
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+    }
+
+    .section-block {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+}
+
