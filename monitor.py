@@ -122,8 +122,6 @@ def percent_files(count) :
     
     return percent_list
 
-
-
 #============ Police color ===========#
 def police_color(nb) :
     color = ""
@@ -152,6 +150,11 @@ def transfert_data() :
     system_arch = platform.machine()
     users_nb = len(psutil.users())
 
+    load1, load5, load15 = psutil.getloadavg()
+    print(f"Load average 1 min:  {load1:.2f}")
+    print(f"Load average 5 min:  {load5:.2f}")
+    print(f"Load average 15 min: {load15:.2f}")
+
     #============= Time ==============#
     boot_time = datetime.datetime.fromtimestamp(psutil.boot_time())
     uptime = datetime.datetime.now() - boot_time
@@ -160,6 +163,8 @@ def transfert_data() :
     #============== CPU ==============#
     cpu_usage = psutil.cpu_percent(interval=1)
     nb_core = psutil.cpu_count(logical=True)
+    core_percentages = psutil.cpu_percent(interval=1, percpu=True)
+    print(core_percentages)
     cpu_freq = psutil.cpu_freq()
     cpu_color = police_color(cpu_usage)
 
@@ -198,6 +203,7 @@ def transfert_data() :
         'cpu_usage' : cpu_usage,
         'cpu_freq' : cpu_freq.current,
         'nb_core' : nb_core,
+        'core_percent' : core_percentages,
         'cpu_color' : cpu_color,
         'ram_usage' : ram_usage,
         'ram_percent' : ram_percent,
@@ -210,7 +216,10 @@ def transfert_data() :
         'files_count' : files_count,
         'percent_file_list' : percent_file_list,
         'size_file_list' : size_list,
-        'top_size_file_list' : top_file_list
+        'top_size_file_list' : top_file_list,
+        'load1' : load1,
+        'load5' : load5,
+        'load15' : load15
     }
     return render_template('template.html', **data)
 
