@@ -36,7 +36,7 @@ Clonez le projet depuis GitHub :
 
 ```bash
 git clone https://github.com/logann-grange/AAA
-cd AAA
+cd AAA```
 
 # ⚙️ Installation des dépendances
 Installez les modules nécessaires via pip :
