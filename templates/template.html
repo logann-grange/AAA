@@ -6,94 +6,293 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="refresh" content="30">
     <title>Dashboard Monitoring – Challenge Triple A</title>
-    <link rel="stylesheet" href="/template.css">
+    <link rel="icon" type="image/ico" href="../static/images/favicon.ico">
+    <link rel="stylesheet" href="../static/template.css">
 </head>
 
 <body>
 
-<header class="header" role="banner">
+<header class="header" role="banner" aria-label="En-tête principal">
     <h1>Dashboard Monitoring – Challenge Triple A</h1>
     <p class="timestamp">Démarré le : {{ start_time }}</p>
 </header>
 
-<main role="main">
-<img src="./../static/images/icons8-tableau-de-bord-50.png" alt="image de dashboard">
+<main role="main" class="dashboard" aria-label="Contenu principal du tableau de bord">
 
-    <!-- ================== SECTION SYSTEME ================== -->
-    <section class="section-block system-section" aria-labelledby="system-section-title">
-        <h2 class="system-section-title">Système</h2>
-<img src="./../static/images/icons8-paramètres.png" alt=image des paramètres de l'ordinateur">
+    <!-- ================= SYSTÈME ================= -->
+    <section class="system-section" aria-labelledby="system-title">
+        <h2 id="system-title">Système</h2>
+        <img src="../static/images/icons8-paramètres.png" alt="Icône des paramètres de l'ordinateur" class="icon">
 
-        <p class="label">Nom de la machine : {{ system_name }}</p>
-        <p class="label">Système d’exploitation : {{ system_os }}</p>
-        <p class="label">Architecture : {{ system_arch }}</p>
+        <p>Nom de la machine : {{ system_name }}</p>
+        <p>Système d'exploitation : {{ system_os }}</p>
+        <p>Architecture : {{ system_arch }}</p>
+        <p>Heure de démarrage : {{ start_time }}</p>
+        <p>Uptime : {{ uptime_day }} jours, {{ uptime_hour }} h, {{ uptime_min }} min</p>
+        <p>Nombre d'utilisateurs connectés : {{ users_nb }}</p>
+        <p>Adresse IP principale : {{ ip }}</p>
 
-        <p class="label">Uptime : {{ uptime_day }} jours, {{ uptime_hour }} h, {{ uptime_min }} min</p>
-        <p class="label">Utilisateurs connectés : {{ users_nb }}</p>
-        <p class="label">Adresse IP : {{ ip }}</p>
+        <h3>Charge système</h3>
+        <p>Load 1 min : {{ load1 }}</p>
+        <p>Load 5 min : {{ load5 }}</p>
+        <p>Load 15 min : {{ load15 }}</p>
     </section>
 
-    <!-- ================== SECTION CPU ================== -->
-    <section class="section-block cpu-section" aria-labelledby="cpu-section-title">
-        <h2 class="cpu-section-title">CPU</h2>
-<img src="./../static/images/icons8-cpu-50.png" alt="image du CPU">
+    <!-- ================= CPU ================= -->
+    <section class="cpu-section" aria-labelledby="cpu-title">
+        <h2 id="cpu-title">CPU</h2>
+        <img src="../static/images/icons8-processeur-50.png" alt="Icône du processeur" class="icon">
 
-        <p class="label">Processeur : {{ system_cpu }}</p>
-        <p class="label">Nombre de cœurs : {{ nb_core }}</p>
-        <p class="label">Fréquence : {{ cpu_freq }} MHz</p>
+        <p>Nombre de cœurs : {{ nb_core }}</p>
+        <p>Fréquence actuelle : {{ cpu_freq }} MHz</p>
 
-        <h3>Utilisation CPU</h3>
-        <div class="progress" role="progressbar" aria-valuenow="{{ cpu_usage }}" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar">
-                {{ cpu_usage }}%
-            </div>
+        <h3>Jauge CPU Globale</h3>
+        <div class="gauge-container">
+            <canvas id="cpuGauge" width="200" height="120" 
+                    data-value="{{ cpu_usage }}" 
+                    aria-label="Jauge CPU"></canvas>
+        </div>
+
+        <h3>Utilisation par cœur</h3>
+        <div id="coresGauges" 
+             class="cores-gauges-container"
+             data-values="{{ core_percent | tojson }}">
         </div>
     </section>
 
-    <!-- ================== SECTION RAM ================== -->
-    <section class="section-block ram-section" aria-labelledby="ram-section-title">
-        <h2 class="ram-section-title">Mémoire RAM</h2>
-<img src="./../static/images/icons8-ram-60.png" alt="image de la RAM">
+    <!-- ================= RAM ================= -->
+    <section class="ram-section" aria-labelledby="ram-title">
+        <h2 id="ram-title">Mémoire RAM</h2>
+        <img src="../static/images/icons8-ram-60.png" alt="Icône de la RAM" class="icon">
 
-        <p class="label">RAM totale : {{ ram_total }} Go</p>
-        <p class="label">RAM utilisée : {{ ram_usage }} Go</p>
+        <p>RAM totale : {{ ram_total }} Go</p>
+        <p>RAM utilisée : {{ ram_usage }} Go</p>
 
-        <h3>Utilisation RAM</h3>
-        <div class="progress" role="progressbar" aria-valuenow="{{ ram_percent }}" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar">
-                {{ ram_percent }}%
-            </div>
+        <h3>Jauge RAM</h3>
+        <div class="gauge-container">
+            <canvas id="ramGauge" width="200" height="120" 
+                    data-value="{{ ram_percent }}" 
+                    aria-label="Jauge RAM"></canvas>
         </div>
     </section>
 
-    <!-- ================== SECTION PROCESSUS ================== -->
-    <section class="section-block process-section" aria-labelledby="process-section-title">
-        <h2 class="process-section-title">Top 3 des processus</h2>
+    <!-- ================= PROCESSUS ================= -->
+    <section class="process-section" aria-labelledby="process-title">
+        <h2 id="process-title">Top 3 des processus</h2>
+        <img src="../static/images/icons8-tableau-de-bord-50.png" alt="Icône représentant le tableau de bord" class="icon">
 
-        <h3>Top 3 – Utilisation CPU</h3>
-        <ul class="process-list">
-            {% for p in cpu_top %}
-            <li class="process-item">
-                {{ loop.index }}. {{ p.nom }} — CPU : {{ p.cpu }}% — RAM : {{ p.ram }} Mo
-            </li>
+        <h3>Top 3 — Utilisation CPU</h3>
+        <ul>
+            {% for p in cpu_process %}
+            <li>{{ loop.index }}. {{ p.nom }} — CPU : {{ p.cpu }}% — RAM : {{ p.ram }}%</li>
             {% endfor %}
         </ul>
 
-        <h3>Top 3 – Utilisation RAM</h3>
-        <ul class="process-list">
-            {% for p in ram_top %}
-            <li class="process-item">
-                {{ loop.index }}. {{ p.nom }} — RAM : {{ p.ram }} Mo — CPU : {{ p.cpu }}%
-            </li>
+        <h3>Top 3 — Utilisation RAM</h3>
+        <ul>
+            {% for p in ram_process %}
+            <li>{{ loop.index }}. {{ p.nom }} — RAM : {{ p.ram }}% — CPU : {{ p.cpu }}%</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- ================= FICHIERS ================= -->
+    <section class="files-section" aria-labelledby="files-title">
+        <h2 id="files-title">Analyse des fichiers</h2>
+        <img src="../static/images/icons8-dossier-50.png" alt="Icône dossier" class="icon">
+
+        <p>Nombre total de fichiers analysés : {{ files_count | sum }}</p>
+
+        <h3>Répartition par type de fichiers et espace occupé</h3>
+        <ul>
+            {% set extensions = ['.txt', '.py', '.pdf', '.jpg', '.html', '.png', '.css', '.mp3', '.mp4', '.zip'] %}
+            {% for ext, count, percent in zip(extensions, files_count, percent_file_list) %}
+            <li>{{ ext }} : {{ count }} fichiers ({{ percent | round(2) }}%)</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Top 5 fichiers les plus volumineux</h3>
+        <ul>
+            {% for f, s in zip(top_size_file_list[0], top_size_file_list[1]) %}
+            <li>{{ f }} — {{ s }}</li>
             {% endfor %}
         </ul>
     </section>
 
 </main>
 
-<footer class="footer" role="contentinfo">
+<footer class="footer" role="contentinfo" aria-label="Pied de page">
     <p>Challenge Triple A — Projet pédagogique — Gaïa, Logann, Anna</p>
 </footer>
+
+<script src="../static/gauge.js"></script>
+
+</body>
+</html>
+
+<script>
+    // Fonction pour dessiner une jauge en arc de cercle
+function drawGauge(canvasId, value, label, color) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height - 20;
+    const radius = 80;
+    const lineWidth = 20;
+    
+    // Effacer le canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Déterminer la couleur selon le pourcentage
+    let gaugeColor;
+    if (value <= 50) {
+        gaugeColor = '#4CAF50'; // Vert
+    } else if (value <= 80) {
+        gaugeColor = '#FF9800'; // Orange
+    } else {
+        gaugeColor = '#F44336'; // Rouge
+    }
+    
+    // Fond de la jauge (arc gris)
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI);
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = '#e0e0e0';
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    
+    // Arc de progression
+    const startAngle = Math.PI;
+    const endAngle = Math.PI + (Math.PI * value / 100);
+    
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = gaugeColor;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    
+    // Texte du pourcentage au centre
+    ctx.fillStyle = '#333';
+    ctx.font = 'bold 28px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(value.toFixed(1) + '%', centerX, centerY - 10);
+    
+    // Label sous le pourcentage
+    ctx.font = '14px Arial';
+    ctx.fillStyle = '#666';
+    ctx.fillText(label, centerX, centerY + 15);
+}
+
+// Fonction pour dessiner plusieurs petites jauges (pour les cœurs CPU)
+function drawMultipleGauges(containerId, values, label) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    // Vider le conteneur
+    container.innerHTML = '';
+    
+    values.forEach((value, index) => {
+        // Créer un wrapper pour chaque jauge
+        const wrapper = document.createElement('div');
+        wrapper.style.display = 'inline-block';
+        wrapper.style.margin = '10px';
+        wrapper.style.textAlign = 'center';
+        
+        // Créer le canvas
+        const canvas = document.createElement('canvas');
+        canvas.width = 120;
+        canvas.height = 100;
+        canvas.id = `core-${index}`;
+        
+        wrapper.appendChild(canvas);
+        container.appendChild(wrapper);
+        
+        // Dessiner la jauge
+        drawSmallGauge(canvas.id, value, `Cœur ${index + 1}`);
+    });
+}
+
+// Fonction pour dessiner une petite jauge
+function drawSmallGauge(canvasId, value, label) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height - 15;
+    const radius = 35;
+    const lineWidth = 8;
+    
+    // Effacer le canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Déterminer la couleur
+    let gaugeColor;
+    if (value <= 50) {
+        gaugeColor = '#4CAF50';
+    } else if (value <= 80) {
+        gaugeColor = '#FF9800';
+    } else {
+        gaugeColor = '#F44336';
+    }
+    
+    // Fond de la jauge
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI);
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = '#e0e0e0';
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    
+    // Arc de progression
+    const startAngle = Math.PI;
+    const endAngle = Math.PI + (Math.PI * value / 100);
+    
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = gaugeColor;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    
+    // Pourcentage
+    ctx.fillStyle = '#333';
+    ctx.font = 'bold 16px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(value.toFixed(1) + '%', centerX, centerY - 5);
+    
+    // Label
+    ctx.font = '11px Arial';
+    ctx.fillStyle = '#666';
+    ctx.fillText(label, centerX, centerY + 10);
+}
+
+// Initialisation au chargement de la page
+document.addEventListener('DOMContentLoaded', function() {
+    // Récupérer les valeurs depuis les attributs data-*
+    const cpuCanvas = document.getElementById('cpuGauge');
+    const ramCanvas = document.getElementById('ramGauge');
+    const coresContainer = document.getElementById('coresGauges');
+    
+    if (cpuCanvas) {
+        const cpuValue = parseFloat(cpuCanvas.dataset.value);
+        drawGauge('cpuGauge', cpuValue, 'CPU Global', '#2196F3');
+    }
+    
+    if (ramCanvas) {
+        const ramValue = parseFloat(ramCanvas.dataset.value);
+        drawGauge('ramGauge', ramValue, 'RAM', '#9C27B0');
+    }
+    
+    if (coresContainer) {
+        const coresValues = JSON.parse(coresContainer.dataset.values);
+        drawMultipleGauges('coresGauges', coresValues, 'Cœurs CPU');
+    }
+});
+</script>
 
 </body>
 </html>

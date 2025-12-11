@@ -143,6 +143,7 @@ def police_color(nb) :
     return color
 
 app = Flask(__name__)
+app.jinja_env.globals.update(zip=zip)
 @app.route('/')
 
 def transfert_data() :
