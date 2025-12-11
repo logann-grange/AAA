@@ -39,7 +39,14 @@ def top_files(size_files_list) :
     return sorted_list
 
 #============ Files list =============#
-def file_list(files = [], count_file=[0,0,0,0,0,0,0,0,0,0], size_list=[] ,path=os.path.join(os.path.expanduser('~'), 'Documents')) :
+def file_list(files=None, count_file=None, size_list=None ,path=os.path.join(os.path.expanduser('~'), 'Documents')) :
+    if files is None:
+        files = []
+    if count_file is None:
+        count_file = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    if size_list is None:
+        size_list = []
+
     try:
         dir_list = os.listdir(path)
     except PermissionError:
@@ -148,9 +155,6 @@ def transfert_data() :
     users_nb = len(psutil.users())
 
     load1, load5, load15 = psutil.getloadavg()
-    print(f"Load average 1 min:  {load1:.2f}")
-    print(f"Load average 5 min:  {load5:.2f}")
-    print(f"Load average 15 min: {load15:.2f}")
 
     #============= Time ==============#
     boot_time = datetime.datetime.fromtimestamp(psutil.boot_time())
@@ -200,6 +204,7 @@ def transfert_data() :
         'cpu_freq' : cpu_freq.current,
         'nb_core' : nb_core,
         'core_percent' : core_percentages,
+        'core_color' : police_color(core_percentages),
         'cpu_color' : cpu_color,
         'ram_usage' : ram_usage,
         'ram_percent' : ram_percent,
