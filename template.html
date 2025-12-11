@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="refresh" content="30">
-<title>Dashboard Monitoring – Challenge Triple A</title>
-<link rel="stylesheet" href="template.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="30">
+    <title>Dashboard Monitoring – Challenge Triple A</title>
+    <link rel="icon" type="image/ico" href="./Images/favicon.ico">
+    <link rel="stylesheet" href="./template.css">
 </head>
+
 <body>
 
 <header role="banner" aria-label="En-tête principal">
@@ -15,12 +18,13 @@
 </header>
 
 <main role="main" aria-label="Contenu principal du tableau de bord">
+
     <div class="dashboard">
 
-        <!-- SYSTÈME -->
-        <section aria-labelledby="system-title">
+        <!-- SYSTEME -->
+        <section class="system-section" aria-labelledby="system-title">
             <h2 id="system-title">Système</h2>
-            <img src="./Images/icons8-paramètres.png" alt="Icône paramètres">
+            <img src="./Images/icons8-paramètres.png" alt="Icône des paramètres de l'ordinateur">
             <p>Nom de la machine : {{ system_name }}</p>
             <p>Système d’exploitation : {{ system_os }}</p>
             <p>Architecture : {{ system_arch }}</p>
@@ -36,64 +40,58 @@
         </section>
 
         <!-- CPU -->
-        <section aria-labelledby="cpu-title">
+        <section class="cpu-section" aria-labelledby="cpu-title">
             <h2 id="cpu-title">CPU</h2>
-            <img src="./Images/icons8-cpu-50.png" alt="Icône CPU">
+            <img src="./Images/icons8-cpu-50.png" alt="Icône du processeur">
 
             <p>Nombre de cœurs : {{ nb_core }}</p>
             <p>Fréquence actuelle : {{ cpu_freq }} MHz</p>
 
-            <h3>Utilisation globale</h3>
-            <div class="gauge" aria-label="Utilisation CPU">
-                <div class="gauge-bg {{ cpu_color }}"></div>
-                <div class="gauge-needle" style="transform: rotate({{ cpu_usage * 1.8 }}deg);"></div>
-                <div class="gauge-center"></div>
-                <div class="gauge-value">{{ cpu_usage }}%</div>
+            <h3>Utilisation CPU globale</h3>
+            <div class="gauge" role="progressbar" aria-valuenow="{{ cpu_usage }}" aria-valuemin="0" aria-valuemax="100" aria-label="Utilisation CPU">
+                <div class="gauge-needle" style="transform: rotate({{ cpu_usage*1.8-90 }}deg)"></div>
+                <div class="gauge-cover {{ cpu_color }}">{{ cpu_usage }}%</div>
             </div>
 
             <h3>Utilisation par cœur</h3>
-            <div class="cores-gauges">
+            <ul class="core-list">
                 {% for i in range(nb_core) %}
-                <div class="gauge" aria-label="Cœur {{ i+1 }}">
-                    <div class="gauge-bg {{ core_colors[i] }}"></div>
-                    <div class="gauge-needle" style="transform: rotate({{ core_percent[i] * 1.8 }}deg);"></div>
-                    <div class="gauge-center"></div>
-                    <div class="gauge-value">{{ core_percent[i] }}%</div>
-                    <p>Cœur {{ i+1 }}</p>
-                </div>
+                <li>
+                    Cœur {{ i+1 }} : {{ core_percent[i] }}%
+                    <div class="core-gauge {{ core_colors[i] }}" style="width: {{ core_percent[i] }}%;"></div>
+                </li>
                 {% endfor %}
-            </div>
+            </ul>
         </section>
 
         <!-- RAM -->
-        <section aria-labelledby="ram-title">
+        <section class="ram-section" aria-labelledby="ram-title">
             <h2 id="ram-title">Mémoire RAM</h2>
-            <img src="./Images/icons8-ram-60.png" alt="Icône RAM">
+            <img src="./Images/icons8-ram-60.png" alt="Icône de la RAM">
 
-            <h3>Utilisation RAM</h3>
-            <div class="gauge" aria-label="Utilisation RAM">
-                <div class="gauge-bg {{ ram_color }}"></div>
-                <div class="gauge-needle" style="transform: rotate({{ ram_percent * 1.8 }}deg);"></div>
-                <div class="gauge-center"></div>
-                <div class="gauge-value">{{ ram_percent }}%</div>
-            </div>
             <p>RAM totale : {{ ram_total }} Go</p>
             <p>RAM utilisée : {{ ram_usage }} Go</p>
+
+            <h3>Utilisation RAM</h3>
+            <div class="gauge" role="progressbar" aria-valuenow="{{ ram_percent }}" aria-valuemin="0" aria-valuemax="100" aria-label="Utilisation RAM">
+                <div class="gauge-needle" style="transform: rotate({{ ram_percent*1.8-90 }}deg)"></div>
+                <div class="gauge-cover {{ ram_color }}">{{ ram_percent }}%</div>
+            </div>
         </section>
 
         <!-- PROCESSUS -->
-        <section aria-labelledby="process-title">
+        <section class="process-section" aria-labelledby="process-title">
             <h2 id="process-title">Top 3 des processus</h2>
-            <img src="./Images/icons8-tableau-de-bord-50.png" alt="Icône tableau de bord">
+            <img src="./Images/icons8-tableau-de-bord-50.png" alt="Icône représentant le tableau de bord">
 
-            <h3>CPU</h3>
+            <h3>Top 3 — Utilisation CPU</h3>
             <ul>
                 {% for p in cpu_process %}
                 <li>{{ loop.index }}. {{ p.nom }} — CPU : {{ p.cpu }}% — RAM : {{ p.ram }}%</li>
                 {% endfor %}
             </ul>
 
-            <h3>RAM</h3>
+            <h3>Top 3 — Utilisation RAM</h3>
             <ul>
                 {% for p in ram_process %}
                 <li>{{ loop.index }}. {{ p.nom }} — RAM : {{ p.ram }}% — CPU : {{ p.cpu }}%</li>
@@ -102,9 +100,10 @@
         </section>
 
         <!-- FICHIERS -->
-        <section aria-labelledby="files-title">
+        <section class="files-section" aria-labelledby="files-title">
             <h2 id="files-title">Analyse des fichiers</h2>
             <img src="./Images/icons8-dossier-50.png" alt="Icône dossier">
+
             <p>Nombre total de fichiers analysés : {{ files_count | sum }}</p>
 
             <h3>Répartition par type de fichiers et espace occupé</h3>
@@ -124,6 +123,7 @@
         </section>
 
     </div>
+
 </main>
 
 <footer role="contentinfo" aria-label="Pied de page">
