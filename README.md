@@ -80,33 +80,62 @@ La page se mettra à jour toutes les 30 secondes.
 ---
 
 ## ✨ Fonctionnalités
-
 ### 🖥️ Informations système
-- Nom de la machine  
-- OS et architecture  
-- Uptime  
-- Utilisateurs connectés  
-- Adresse IP  
+- Nom de la machine
+- Système d’exploitation (OS)
+- Architecture
+- Uptime complet (jours, heures, minutes)
+- Nombre d’utilisateurs connectés
+- Adresse IP principale
+- Heure de démarrage de la machine
+- Charge système : Load 1 min / 5 min / 15 min
 
 ### ⚙️ CPU
-- Modèle du processeur  
-- Fréquence  
-- Nombre de cœurs  
-- Utilisation CPU (barre de progression)  
+- Nom / modèle du processeur
+- Fréquence actuelle en MHz
+- Nombre de cœurs logiques
+- Utilisation CPU globale (jauge en demi-cercle Canvas)
+- Utilisation CPU par cœur (mini-jauges dynamiques Canvas)
+- Couleur automatique selon la charge (vert / orange / rouge)
 
 ### 🧠 RAM
-- RAM totale  
-- RAM utilisée  
-- Pourcentage d’utilisation  
+- RAM totale
+- RAM utilisée (Go)
+- Pourcentage d’utilisation
+- Jauge RAM dynamique en Canvas
+- Indicateur coloré selon le niveau de charge
 
 ### 📊 Processus
-- Top 3 CPU  
-- Top 3 RAM  
+- Top 3 processus les plus gourmands en CPU
+- Top 3 processus les plus gourmands en RAM
+- Affichage CPU% et RAM% pour chaque processus
+
+### 📁 Analyse des fichiers
+- Analyse récursive du dossier Documents
+- Comptage des fichiers par type :
+.txt, .py, .pdf, .jpg, .html, .png, .css, .mp3, .mp4, .zip
+- Calcul du pourcentage par extension
+- Conversion automatique des tailles (Ko, Mo, Go...)
+- Top 5 des fichiers les plus volumineux
+- Affichage du chemin complet + taille humaine pour chaque fichier
+
+### 🎨 Interface et affichage
+- Génération HTML via Flask + Jinja2
+- Rafraîchissement automatique de la page toutes les 30 secondes
+- Jauges visuelles Canvas (CPU + RAM + cœurs)
+- Design responsive
+- Affichage d’icônes informatives
+- Mise en page structurée en sections
 
 ### 🛠️ Techniques
-- Génération HTML automatique  
-- Rafraîchissement auto  
+- Application web générée avec Flask
+- Récupération des données système avec psutil
+- Parcours de fichiers avec gestion des permissions
+- Utilisation de tojson pour transférer les données Python → JavaScript
+- Ouverture automatique du navigateur
+- Code modulaire et organisé (fonctions séparées : CPU, RAM, fichiers, processus…)
 - Design responsive  
+
 
 ---
 
@@ -117,7 +146,7 @@ La page se mettra à jour toutes les 30 secondes.
 
 ## 🐞 Difficultés rencontrées
 - Problèmes réseau de la VM 
-- création des jauges
+- Création des jauges
 
 ---
 
@@ -126,6 +155,7 @@ La page se mettra à jour toutes les 30 secondes.
 - Changement des couleurs vert / rouge pour une meilleure accecssibilité (daltonisme)
 - Interface interactive (recherche, filtres)
 - Navigation multi-onglets (CPU / RAM / Processus / Réseau)
+- Ajout d’un onglet "Réseau" (débit entrant/sortant)
 
 ---
 
