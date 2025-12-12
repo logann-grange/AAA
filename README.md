@@ -140,7 +140,8 @@ Header :
 <img width="1881" height="235" alt="image" src="https://github.com/user-attachments/assets/26332441-8955-4109-b220-30aedd317d32" />
 Body :
 <img width="1865" height="973" alt="image" src="https://github.com/user-attachments/assets/a04b9260-096b-4afe-b183-9d5291e6039f" />
-<img width="1263" height="912" alt="image" src="https://github.com/user-attachments/assets/1b1cb25f-deed-403d-9737-c5fda5bb56b3" />
+<img width="1858" height="908" alt="image" src="https://github.com/user-attachments/assets/9baf696b-3e5d-4a09-856f-f3de0a7bae76" />
+<img width="1862" height="571" alt="image" src="https://github.com/user-attachments/assets/08723136-ba4e-4bc5-9d54-12f71cfacf98" />
 Footer :
 <img width="1871" height="111" alt="image" src="https://github.com/user-attachments/assets/44534202-331b-46b7-a308-21f23f8bae5f" />
 
