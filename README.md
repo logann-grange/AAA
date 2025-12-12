@@ -6,7 +6,7 @@
 - [Installation](#installation)
 - [Installation des dépendances](#️installation-des-dépendances)
 - [Utilisation](#utilisation)
-  - [Lancer le script](#️lancer-le-script)
+  - [Lancer le script](#lancer-le-script)
   - [Ouvrir le dashboard](#ouvrir-le-dashboard)
 - [Fonctionnalités](#fonctionnalités)
 - [Captures d'écran](#️captures-décran)
