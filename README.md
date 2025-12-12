@@ -1,8 +1,8 @@
 # Challenge Triple A — Dashboard de Monitoring
 
 ## Sommaire
-- [Description](#-description)
-- [Prérequis](#-prérequis)
+- [ Description](#-description)
+- [Prérequis](#prérequis)
 - [Installation](#-installation)
 - [Installation des dépendances](#️-installation-des-dépendances)
 - [Utilisation](#-utilisation)
