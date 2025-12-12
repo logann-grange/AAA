@@ -1,18 +1,18 @@
 # Challenge Triple A — Dashboard de Monitoring
 
 ## Sommaire
-- [ Description](#-description)
+- [Description](#description)
 - [Prérequis](#prérequis)
-- [Installation](#-installation)
-- [Installation des dépendances](#️-installation-des-dépendances)
-- [Utilisation](#-utilisation)
-  - [Lancer le script](#️-lancer-le-script)
-  - [Ouvrir le dashboard](#-ouvrir-le-dashboard)
-- [Fonctionnalités](#-fonctionnalités)
-- [Captures d'écran](#️-captures-décran)
-- [Difficultés rencontrées](#-difficultés-rencontrées)
-- [Améliorations possibles](#-améliorations-possibles)
-- [Auteurs](#-auteurs)
+- [Installation](#installation)
+- [Installation des dépendances](#️installation-des-dépendances)
+- [Utilisation](#utilisation)
+  - [Lancer le script](#️lancer-le-script)
+  - [Ouvrir le dashboard](#ouvrir-le-dashboard)
+- [Fonctionnalités](#fonctionnalités)
+- [Captures d'écran](#️captures-décran)
+- [Difficultés rencontrées](#difficultés-rencontrées)
+- [Améliorations possibles](#améliorations-possibles)
+- [Auteurs](#auteurs)
 
 ---
 
