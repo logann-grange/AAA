@@ -153,7 +153,7 @@ def transfert_data() :
     system_os = platform.system()
     system_cpu = platform.processor()
     system_arch = platform.machine()
-    users_nb = len(psutil.users())
+    users_nb = len(set(user.name for user in psutil.users()))
 
     load1, load5, load15 = psutil.getloadavg()
 
