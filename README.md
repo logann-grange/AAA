@@ -122,15 +122,13 @@ La page se mettra à jour toutes les 30 secondes.
 ---
 
 ## 🚧 Améliorations possibles
-- Mode sombre
-- Graphiques temps réel (Chart.js)
-- Service systemd
+- Mode sombre vs mode clair
+- Changement des couleurs vert / rouge pour une meilleure accecssibilité (daltonisme)
 - Interface interactive (recherche, filtres)
 - Navigation multi-onglets (CPU / RAM / Processus / Réseau)
 
 ---
 
 ## 👥 Auteurs
-- **Gaïa** — CSS  
-- **Logann** — Script Python  
-- **Anna** — HTML  
+- **Logann**
+- **Anna** 
