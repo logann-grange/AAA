@@ -1,28 +1,28 @@
-# 🔧 Challenge Triple A — Dashboard de Monitoring
+# Challenge Triple A — Dashboard de Monitoring
 
-## 📑 Sommaire
-- [📘 Description](#-description)
-- [🧰 Prérequis](#-prérequis)
-- [📦 Installation](#-installation)
-- [⚙️ Installation des dépendances](#️-installation-des-dépendances)
-- [🚀 Utilisation](#-utilisation)
-  - [▶️ Lancer le script](#️-lancer-le-script)
-  - [🌐 Ouvrir le dashboard](#-ouvrir-le-dashboard)
-- [✨ Fonctionnalités](#-fonctionnalités)
-- [🖼️ Captures d'écran](#️-captures-décran)
-- [🐞 Difficultés rencontrées](#-difficultés-rencontrées)
-- [🚧 Améliorations possibles](#-améliorations-possibles)
-- [👥 Auteurs](#-auteurs)
+## Sommaire
+- [Description](#-description)
+- [Prérequis](#-prérequis)
+- [Installation](#-installation)
+- [Installation des dépendances](#️-installation-des-dépendances)
+- [Utilisation](#-utilisation)
+  - [Lancer le script](#️-lancer-le-script)
+  - [Ouvrir le dashboard](#-ouvrir-le-dashboard)
+- [Fonctionnalités](#-fonctionnalités)
+- [Captures d'écran](#️-captures-décran)
+- [Difficultés rencontrées](#-difficultés-rencontrées)
+- [Améliorations possibles](#-améliorations-possibles)
+- [Auteurs](#-auteurs)
 
 ---
 
-## 📘 Description
+## Description
 Ce projet consiste à créer un **dashboard de monitoring système** généré automatiquement via un script Python.  
 Le script récupère diverses informations (CPU, RAM, uptime, processus...) et génère une page HTML statique à l’aide d’un template **Jinja2**.
 
 ---
 
-## 🧰 Prérequis
+## Prérequis
 - **Python 3.8+**
 - Modules Python :
   - `psutil`
@@ -31,7 +31,7 @@ Le script récupère diverses informations (CPU, RAM, uptime, processus...) et g
 
 ---
 
-## 📦 Installation
+## Installation
 Clonez le projet :
 
 ```bash
@@ -41,7 +41,7 @@ cd AAA
 
 ---
 
-## ⚙️ Installation des dépendances
+## Installation des dépendances
 
 ```bash
 pip install psutil jinja2
@@ -49,9 +49,9 @@ pip install psutil jinja2
 
 ---
 
-## 🚀 Utilisation
+## Utilisation
 
-### ▶️ Lancer le script
+### Lancer le script
 
 ```bash
 python3 monitor.py
@@ -59,7 +59,7 @@ python3 monitor.py
 
 ---
 
-### 🌐 Ouvrir le dashboard
+### Ouvrir le dashboard
 Ouvrez simplement le fichier :
 
 - Double-cliquez sur `template.html`, **ou**
@@ -75,8 +75,8 @@ La page se mettra à jour toutes les 30 secondes.
 
 ---
 
-## ✨ Fonctionnalités
-### 🖥️ Informations système
+## Fonctionnalités
+### Informations système
 - Nom de la machine
 - Système d’exploitation (OS)
 - Architecture
@@ -86,7 +86,7 @@ La page se mettra à jour toutes les 30 secondes.
 - Heure de démarrage de la machine
 - Charge système : Load 1 min / 5 min / 15 min
 
-### ⚙️ CPU
+### CPU
 - Nom / modèle du processeur
 - Fréquence actuelle en MHz
 - Nombre de cœurs logiques
@@ -94,19 +94,19 @@ La page se mettra à jour toutes les 30 secondes.
 - Utilisation CPU par cœur (mini-jauges dynamiques Canvas)
 - Couleur automatique selon la charge (vert / orange / rouge)
 
-### 🧠 RAM
+### RAM
 - RAM totale
 - RAM utilisée (Go)
 - Pourcentage d’utilisation
 - Jauge RAM dynamique en Canvas
 - Indicateur coloré selon le niveau de charge
 
-### 📊 Processus
+### Processus
 - Top 3 processus les plus gourmands en CPU
 - Top 3 processus les plus gourmands en RAM
 - Affichage CPU% et RAM% pour chaque processus
 
-### 📁 Analyse des fichiers
+### Analyse des fichiers
 - Analyse récursive du dossier Documents
 - Comptage des fichiers par type :
 .txt, .py, .pdf, .jpg, .html, .png, .css, .mp3, .mp4, .zip
@@ -115,7 +115,7 @@ La page se mettra à jour toutes les 30 secondes.
 - Top 5 des fichiers les plus volumineux
 - Affichage du chemin complet + taille humaine pour chaque fichier
 
-### 🎨 Interface et affichage
+### Interface et affichage
 - Génération HTML via Flask + Jinja2
 - Rafraîchissement automatique de la page toutes les 30 secondes
 - Jauges visuelles Canvas (CPU + RAM + cœurs)
@@ -123,7 +123,7 @@ La page se mettra à jour toutes les 30 secondes.
 - Affichage d’icônes informatives
 - Mise en page structurée en sections
 
-### 🛠️ Techniques
+### Techniques
 - Application web générée avec Flask
 - Récupération des données système avec psutil
 - Parcours de fichiers avec gestion des permissions
@@ -135,7 +135,7 @@ La page se mettra à jour toutes les 30 secondes.
 
 ---
 
-## 🖼️ Captures d'écran
+## Captures d'écran
 Header :
 <img width="1881" height="235" alt="image" src="https://github.com/user-attachments/assets/26332441-8955-4109-b220-30aedd317d32" />
 Body :
@@ -148,13 +148,13 @@ Footer :
 
 ---
 
-## 🐞 Difficultés rencontrées
+## Difficultés rencontrées
 - Problèmes réseau de la VM 
 - Création des jauges
 
 ---
 
-## 🚧 Améliorations possibles
+## Améliorations possibles
 - Mode sombre vs mode clair
 - Changement des couleurs vert / rouge pour une meilleure accecssibilité (daltonisme)
 - Interface interactive (recherche, filtres)
@@ -163,6 +163,6 @@ Footer :
 
 ---
 
-## 👥 Auteurs
+## Auteurs
 - **Logann**
 - **Anna** 
