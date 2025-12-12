@@ -20,8 +20,6 @@
 Ce projet consiste à créer un **dashboard de monitoring système** généré automatiquement via un script Python.  
 Le script récupère diverses informations (CPU, RAM, uptime, processus...) et génère une page HTML statique à l’aide d’un template **Jinja2**.
 
-Le résultat final est un fichier **`index.html`** affichant un tableau de bord actualisé automatiquement toutes les 30 secondes.
-
 ---
 
 ## 🧰 Prérequis
@@ -59,20 +57,18 @@ pip install psutil jinja2
 python3 monitor.py
 ```
 
-Un fichier **`index.html`** sera généré automatiquement.
-
 ---
 
 ### 🌐 Ouvrir le dashboard
 Ouvrez simplement le fichier :
 
-- Double-cliquez sur `index.html`, **ou**
+- Double-cliquez sur `template.html`, **ou**
 - Utilisez :
 
 ```bash
-xdg-open index.html   # Linux
-open index.html       # macOS
-start index.html      # Windows
+xdg-open template.html   # Linux
+open template.html       # macOS
+start template.html      # Windows
 ```
 
 La page se mettra à jour toutes les 30 secondes.
